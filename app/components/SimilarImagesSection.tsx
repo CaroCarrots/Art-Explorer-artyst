@@ -95,7 +95,7 @@ export default function SimilarImagesSection({
   }, [uploadedImageUrl]);
 
   return (
-    <section id="similar-images-section" className="min-h-screen relative bg-gradient-to-br from-[#FFF5F5] to-[#F0FFF4]">
+    <section id="similar-images-section" className="min-h-screen relative">
       {/* 工具栏 */}
       {exploreData && (
         <ExploreToolbar
