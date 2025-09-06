@@ -3,16 +3,27 @@
 import { motion } from 'framer-motion';
 import { ArtworkData, ArtStyle } from '../../types/artwork';
 
+interface MasterpieceData {
+  id: string;
+  title: string;
+  artist: string;
+  year: string;
+  url: string;
+  description: string;
+  techniques: string[];
+  significance: string;
+}
+
 interface MasterpieceSectionProps {
-  artwork: ArtworkData;
   style: ArtStyle;
+  masterpieces: MasterpieceData[];
   isActive: boolean;
 }
 
-export default function MasterpieceSection({ artwork, style, isActive }: MasterpieceSectionProps) {
+export default function MasterpieceSection({ style, masterpieces, isActive }: MasterpieceSectionProps) {
   return (
     <div className="min-h-screen flex items-center justify-center p-8">
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: isActive ? 1 : 0.3, y: isActive ? 0 : 50 }}
@@ -46,98 +57,80 @@ export default function MasterpieceSection({ artwork, style, isActive }: Masterp
               scale: isActive ? 1 : 0.9 
             }}
             transition={{ delay: 0.6, duration: 1 }}
-            className="relative"
+            className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8"
           >
-            <div className="bg-white rounded-3xl shadow-2xl overflow-hidden max-w-4xl mx-auto">
-              {/* 作品图片 */}
-              <div className="relative">
-                <img
-                  src={artwork.url}
-                  alt={artwork.title}
-                  className="w-full h-[500px] md:h-[600px] object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
-                
-                {/* 作品信息覆盖层 */}
-                <div className="absolute bottom-0 left-0 right-0 p-8 text-white">
-                  <motion.h2
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: isActive ? 1 : 0.7, y: isActive ? 0 : 20 }}
-                    transition={{ delay: 0.8, duration: 0.8 }}
-                    className="text-3xl md:text-4xl font-bold mb-2"
-                  >
-                    {artwork.title}
-                  </motion.h2>
-                  <motion.p
-                    initial={{ opacity: 0, y: 15 }}
-                    animate={{ opacity: isActive ? 1 : 0.7, y: isActive ? 0 : 15 }}
-                    transition={{ delay: 1, duration: 0.8 }}
-                    className="text-xl md:text-2xl mb-2"
-                  >
-                    {artwork.artist}
-                  </motion.p>
-                  <motion.p
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: isActive ? 1 : 0.7, y: isActive ? 0 : 10 }}
-                    transition={{ delay: 1.2, duration: 0.8 }}
-                    className="text-lg opacity-90"
-                  >
-                    {artwork.year} · {artwork.source}
-                  </motion.p>
+            {masterpieces.map((masterpiece, index) => (
+              <motion.div
+                key={masterpiece.id}
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ 
+                  opacity: isActive ? 1 : 0.6, 
+                  y: isActive ? 0 : 30 
+                }}
+                transition={{ 
+                  delay: 0.8 + index * 0.2, 
+                  duration: 0.8 
+                }}
+                className="bg-white rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-300"
+              >
+                {/* 作品图片 */}
+                <div className="relative h-64 overflow-hidden">
+                  <img
+                    src={masterpiece.url}
+                    alt={masterpiece.title}
+                    className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                  <div className="absolute bottom-4 left-4 right-4 text-white">
+                    <h3 className="text-xl font-bold mb-1">{masterpiece.title}</h3>
+                    <p className="text-sm opacity-90">{masterpiece.artist} · {masterpiece.year}</p>
+                  </div>
                 </div>
-              </div>
 
-              {/* 作品描述 */}
-              <div className="p-8">
-                <motion.p
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: isActive ? 1 : 0.7, y: isActive ? 0 : 20 }}
-                  transition={{ delay: 1.4, duration: 0.8 }}
-                  className="text-lg text-gray-700 leading-relaxed mb-6"
-                >
-                  {artwork.description}
-                </motion.p>
+                {/* 作品详情 */}
+                <div className="p-6">
+                  <p className="text-gray-700 mb-4 leading-relaxed">
+                    {masterpiece.description}
+                  </p>
 
-                {/* 风格特征标签 */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: isActive ? 1 : 0.7, y: isActive ? 0 : 20 }}
-                  transition={{ delay: 1.6, duration: 0.8 }}
-                  className="flex flex-wrap gap-3"
-                >
-                  {style.characteristics.map((characteristic, index) => (
-                    <span
-                      key={index}
-                      className="px-4 py-2 bg-gradient-to-r from-[#FF6B6B] to-[#4ECDC4] text-white rounded-full text-sm font-medium"
-                    >
-                      {characteristic}
-                    </span>
-                  ))}
-                </motion.div>
-              </div>
-            </div>
+                  {/* 技法标签 */}
+                  <div className="mb-4">
+                    <h4 className="text-sm font-semibold text-gray-600 mb-2">主要技法</h4>
+                    <div className="flex flex-wrap gap-2">
+                      {masterpiece.techniques.map((technique, techIndex) => (
+                        <span
+                          key={techIndex}
+                          className="px-3 py-1 bg-gradient-to-r from-[#FF6B6B] to-[#4ECDC4] text-white text-xs rounded-full"
+                        >
+                          {technique}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* 历史意义 */}
+                  <div className="border-t pt-4">
+                    <h4 className="text-sm font-semibold text-gray-600 mb-2">历史意义</h4>
+                    <p className="text-sm text-gray-600 leading-relaxed">
+                      {masterpiece.significance}
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
           </motion.div>
 
-          {/* 滚动提示 */}
+          {/* 底部装饰 */}
           <motion.div
             initial={{ opacity: 0 }}
-            animate={{ opacity: isActive ? 1 : 0 }}
-            transition={{ delay: 2, duration: 0.8 }}
-            className="mt-16"
+            animate={{ opacity: isActive ? 1 : 0.3 }}
+            transition={{ delay: 1.2, duration: 0.8 }}
+            className="mt-16 text-center"
           >
-            <div className="flex flex-col items-center text-gray-500">
-              <span className="text-lg mb-2">向下滚动探索更多</span>
-              <motion.div
-                animate={{ y: [0, 10, 0] }}
-                transition={{ repeat: Infinity, duration: 2 }}
-                className="w-6 h-10 border-2 border-gray-400 rounded-full flex justify-center"
-              >
-                <motion.div
-                  animate={{ y: [0, 12, 0] }}
-                  transition={{ repeat: Infinity, duration: 2 }}
-                  className="w-1 h-3 bg-gray-400 rounded-full mt-2"
-                />
-              </motion.div>
+            <div className="inline-flex items-center space-x-2 text-gray-500">
+              <div className="w-8 h-0.5 bg-gradient-to-r from-[#FF6B6B] to-[#4ECDC4]"></div>
+              <span className="text-sm font-medium">代表作品</span>
+              <div className="w-8 h-0.5 bg-gradient-to-r from-[#4ECDC4] to-[#FF6B6B]"></div>
             </div>
           </motion.div>
         </motion.div>
