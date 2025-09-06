@@ -117,7 +117,7 @@ export default function ImageSimilarityFinder({ onBack }: ImageSimilarityFinderP
             whileTap={{ scale: 0.95 }}
           >
             <span className="text-xl">←</span>
-            <span>返回主页</span>
+            <span>Back to Home</span>
           </motion.button>
         )}
         <div className="flex-1"></div>
@@ -283,12 +283,12 @@ function SimilarityResultsScroll({ results }: SimilarityResultsScrollProps) {
       {/* 标题 */}
       <div className="text-center mb-12">
         <h2 className="text-3xl font-bold text-gray-900 mb-4">
-          {results.has_perfect_match ? '作品识别结果' : '找到相似作品'}
+          {results.has_perfect_match ? 'Artwork Recognition Results' : 'Similar Artworks Found'}
         </h2>
         <p className="text-lg text-gray-600">
           {results.has_perfect_match 
-            ? '我们识别出了您上传的作品！' 
-            : `基于您上传的图片，我们找到了 ${results.total_found} 个相似的艺术作品`
+            ? 'We have identified the artwork you uploaded!' 
+            : `Based on your uploaded image, we found ${results.total_found} similar artworks`
           }
         </p>
       </div>
@@ -366,27 +366,27 @@ function NotInDatabaseCard() {
           <div className="flex-1 text-center lg:text-left">
             <div className="mb-4">
               <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-700 mb-3">
-                ℹ️ 未收录作品
+                ℹ️ Not in Database
               </span>
             </div>
             
             <h3 className="text-3xl font-bold text-gray-800 mb-3">
-              我们暂未收录此作品
+              We haven't collected this artwork yet
             </h3>
             
             <div className="text-xl text-gray-600 mb-4">
-              但为您找到了相似的艺术作品
+              But we found similar artworks for you
             </div>
             
             <p className="text-lg text-gray-600 leading-relaxed">
-              很抱歉，我们目前还没有收录您上传的这幅作品。不过，我们的AI算法为您找到了风格和主题相似的艺术作品，
-              希望这些推荐能够帮助您发现更多精彩的艺术内容。
+              Sorry, we haven't collected the artwork you uploaded yet. However, our AI algorithm has found artworks with similar styles and themes for you,
+              and we hope these recommendations will help you discover more wonderful art content.
             </p>
             
             <div className="mt-6 p-4 bg-gray-50 rounded-xl border border-gray-200">
               <p className="text-sm text-gray-600">
-                <span className="font-semibold">💡 小贴士：</span>
-                如果您知道这幅作品的信息，欢迎告诉我们，我们会考虑将其加入我们的艺术数据库！
+                <span className="font-semibold">💡 Tip:</span>
+                If you know information about this artwork, please let us know, and we will consider adding it to our art database!
               </p>
             </div>
           </div>
@@ -429,7 +429,7 @@ function InputImageSection({ inputInfo }: InputImageSectionProps) {
           <div className="flex-1 text-center lg:text-left">
             <div className="mb-4">
               <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800 mb-3">
-                ✅ 完美匹配 ({(inputInfo.similarity_score * 100).toFixed(1)}%)
+                ✅ Perfect Match ({(inputInfo.similarity_score * 100).toFixed(1)}%)
               </span>
             </div>
             
@@ -444,9 +444,8 @@ function InputImageSection({ inputInfo }: InputImageSectionProps) {
             </div>
             
             <p className="text-lg text-gray-600 leading-relaxed">
-              这是一件来自 <span className="font-semibold text-gray-800">{inputInfo.artist}</span> 的 
-              <span className="font-semibold text-gray-800">{Array.isArray(inputInfo.genre) ? inputInfo.genre.join('、') : inputInfo.genre}</span> 风格作品。
-              我们成功识别出了这幅作品！
+              This is a <span className="font-semibold text-gray-800">{Array.isArray(inputInfo.genre) ? inputInfo.genre.join(', ') : inputInfo.genre}</span> style artwork by <span className="font-semibold text-gray-800">{inputInfo.artist}</span>.
+              We have successfully identified this artwork!
             </p>
           </div>
         </div>
@@ -575,7 +574,7 @@ function SimilarityArtworkSection({ image, index, totalCount, scrollProgress }: 
 
             <div className="space-y-4">
               <p className="text-base text-gray-700 leading-relaxed max-w-lg">
-                这是一件来自 {image.artist} 的 {image.genre} 风格作品。通过我们的AI算法分析，这件作品与您上传的图片在视觉特征上具有很高的相似性。
+                This is a {image.genre} style artwork by {image.artist}. Through our AI algorithm analysis, this artwork has high visual similarity to the image you uploaded.
               </p>
               
               {/* 风格标签 */}
@@ -587,14 +586,14 @@ function SimilarityArtworkSection({ image, index, totalCount, scrollProgress }: 
                   {image.artist}
                 </span>
                 <span className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm">
-                  相似度: {Math.round(image.similarity_score * 100)}%
+                  Similarity: {Math.round(image.similarity_score * 100)}%
                 </span>
               </div>
 
               {/* 相似度分析 */}
               <div className="pt-4">
                 <div className="flex items-center space-x-3">
-                  <span className="text-sm text-gray-600">相似度</span>
+                  <span className="text-sm text-gray-600">Similarity</span>
                   <div className="flex-1 max-w-32 h-1 bg-gray-200 rounded-full overflow-hidden">
                     <motion.div
                       className="h-full bg-gray-800"
@@ -621,7 +620,7 @@ function SimilarityArtworkSection({ image, index, totalCount, scrollProgress }: 
                 animate={{ opacity: [0.5, 1, 0.5] }}
                 transition={{ duration: 2, repeat: Infinity }}
               >
-                <span className="text-sm">继续滚动查看下一个作品</span>
+                <span className="text-sm">Continue scrolling to view the next artwork</span>
                 <span className="text-xs">↓</span>
               </motion.div>
             )}

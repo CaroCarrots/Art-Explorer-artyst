@@ -173,8 +173,9 @@ async def find_similar_images(
             # Get embedding
             query_embedding = get_image_embedding(image)
             
-            # Search for similar images
-            scores, indices = index.search(query_embedding, top_k)
+            # Search for similar images - if we expect a perfect match, search for more results
+            search_k = top_k + 1 if top_k >= 3 else top_k  # Search for one extra result if we might skip the first one
+            scores, indices = index.search(query_embedding, search_k)
             
             # Check if we have a perfect match (similarity score >= 0.99)
             has_perfect_match = False
@@ -200,16 +201,20 @@ async def find_similar_images(
             # Prepare results
             results = []
             if has_perfect_match:
-                # If we have a perfect match, show the input image info and similar images
+                # If we have a perfect match, show similar images but skip the first 100% match
                 for i, (score, idx) in enumerate(zip(scores[0], indices[0])):
-                    if idx < len(metadata):
+                    if idx < len(metadata) and len(results) < top_k:
+                        # Skip the first result if it's the perfect match (100% similarity)
+                        if i == 0 and score >= 0.99:
+                            continue
+                            
                         # Parse the title from the filename
                         image_path = metadata[idx]["image_path"]
                         filename = Path(image_path).name
                         parsed_title = parse_artwork_title(filename)
                         
                         result = {
-                            "rank": i + 1,
+                            "rank": len(results) + 1,  # Adjust rank to start from 1
                             "similarity_score": float(score),
                             "title": parsed_title,
                             "artist": metadata[idx]["artist"],
