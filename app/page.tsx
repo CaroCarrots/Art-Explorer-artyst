@@ -8,7 +8,6 @@ import ExportSection from './components/ExportSection';
 export default function Home() {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [currentSection, setCurrentSection] = useState(0);
-  const [isInExploreMode, setIsInExploreMode] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
 
   // Scroll progress tracking
@@ -50,62 +49,56 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#F7FAFC] to-[#EDF2F7]" ref={contentRef}>
       {/* Progress Indicator */}
-      {!isInExploreMode && (
-        <div className="fixed top-0 left-0 w-full h-1 bg-gray-200 z-50">
-          <div
-            className="h-full bg-gradient-to-r from-[#FF6B6B] to-[#4ECDC4] transition-all duration-300 ease-out"
-            style={{ width: `${scrollProgress * 100}%` }}
-          />
-        </div>
-      )}
+      <div className="fixed top-0 left-0 w-full h-1 bg-gray-200 z-50">
+        <div
+          className="h-full bg-gradient-to-r from-[#FF6B6B] to-[#4ECDC4] transition-all duration-300 ease-out"
+          style={{ width: `${scrollProgress * 100}%` }}
+        />
+      </div>
 
       {/* Navigation Dots */}
-      {!isInExploreMode && (
-        <div className="fixed right-8 top-1/2 transform -translate-y-1/2 z-50 hidden md:block">
-          {sections.map((section, index) => (
-            <button
-              key={section.id}
-              className={`block w-4 h-4 rounded-full mb-4 transition-all duration-300 ${
-                currentSection === index
-                  ? 'bg-gradient-to-r from-[#FF6B6B] to-[#4ECDC4] shadow-lg scale-125'
-                  : 'bg-white/50 hover:bg-white/80'
-              }`}
-              onClick={() => {
-                const element = document.getElementById(section.id);
-                element?.scrollIntoView({ behavior: 'smooth' });
-              }}
-              title={section.name}
-            />
-          ))}
-        </div>
-      )}
+      <div className="fixed right-8 top-1/2 transform -translate-y-1/2 z-50 hidden md:block">
+        {sections.map((section, index) => (
+          <button
+            key={section.id}
+            className={`block w-4 h-4 rounded-full mb-4 transition-all duration-300 ${
+              currentSection === index
+                ? 'bg-gradient-to-r from-[#FF6B6B] to-[#4ECDC4] shadow-lg scale-125'
+                : 'bg-white/50 hover:bg-white/80'
+            }`}
+            onClick={() => {
+              const element = document.getElementById(section.id);
+              element?.scrollIntoView({ behavior: 'smooth' });
+            }}
+            title={section.name}
+          />
+        ))}
+      </div>
 
       {/* Mobile Navigation */}
-      {!isInExploreMode && (
-        <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 z-50 md:hidden">
-          <div className="bg-white/90 backdrop-blur-md rounded-2xl px-4 py-2 shadow-lg">
-            <div className="flex space-x-4">
-              {sections.map((section, index) => (
-                <button
-                  key={section.id}
-                  className={`flex flex-col items-center px-3 py-2 rounded-xl transition-all duration-300 ${
-                    currentSection === index
-                      ? 'bg-gradient-to-r from-[#FF6B6B] to-[#4ECDC4] text-white'
-                      : 'text-gray-600 hover:bg-gray-100'
-                  }`}
-                  onClick={() => {
-                    const element = document.getElementById(section.id);
-                    element?.scrollIntoView({ behavior: 'smooth' });
-                  }}
-                >
-                  <span className="text-lg">{section.icon}</span>
-                  <span className="text-xs font-medium">{section.name}</span>
-                </button>
-              ))}
-            </div>
+      <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 z-50 md:hidden">
+        <div className="bg-white/90 backdrop-blur-md rounded-2xl px-4 py-2 shadow-lg">
+          <div className="flex space-x-4">
+            {sections.map((section, index) => (
+              <button
+                key={section.id}
+                className={`flex flex-col items-center px-3 py-2 rounded-xl transition-all duration-300 ${
+                  currentSection === index
+                    ? 'bg-gradient-to-r from-[#FF6B6B] to-[#4ECDC4] text-white'
+                    : 'text-gray-600 hover:bg-gray-100'
+                }`}
+                onClick={() => {
+                  const element = document.getElementById(section.id);
+                  element?.scrollIntoView({ behavior: 'smooth' });
+                }}
+              >
+                <span className="text-lg">{section.icon}</span>
+                <span className="text-xs font-medium">{section.name}</span>
+              </button>
+            ))}
           </div>
         </div>
-      )}
+      </div>
 
       {/* Main Content */}
       <div className="relative">
@@ -116,7 +109,7 @@ export default function Home() {
         
         {/* Art Explore Section - 这是主要功能 */}
         <div id="explore-section">
-          <SimilarImagesSection onExploreModeChange={setIsInExploreMode} />
+          <SimilarImagesSection />
         </div>
         
         {/* Export Section */}

@@ -14,6 +14,13 @@ export default function LandingSection() {
   const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
   const scale = useTransform(scrollYProgress, [0, 1], [1, 0.8]);
 
+  const scrollToUpload = () => {
+    const uploadSection = document.getElementById('upload-section');
+    if (uploadSection) {
+      uploadSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <section 
       ref={ref}
@@ -85,12 +92,37 @@ export default function LandingSection() {
         </motion.p>
 
         <motion.div
-          className="text-sm text-[#718096] mt-8"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 1.2, duration: 0.8 }}
+          className="space-y-4"
         >
-          Scroll to continue ↓
+          <motion.button
+            className="bg-gradient-to-r from-[#FF6B6B] to-[#4ECDC4] text-white px-12 py-4 rounded-full text-xl font-medium shadow-2xl hover:shadow-3xl transition-all duration-500 group"
+            onClick={scrollToUpload}
+            whileHover={{ scale: 1.05, y: -2 }}
+            whileTap={{ scale: 0.98 }}
+          >
+            <span className="flex items-center space-x-3">
+              <span>Begin Your Journey</span>
+              <motion.span
+                className="text-2xl"
+                animate={{ rotate: [0, 10, 0] }}
+                transition={{ duration: 2, repeat: Infinity }}
+              >
+                🎨
+              </motion.span>
+            </span>
+          </motion.button>
+          
+          <motion.div
+            className="text-sm text-[#718096] mt-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.8, duration: 0.8 }}
+          >
+            Scroll to continue ↓
+          </motion.div>
         </motion.div>
       </motion.div>
 
