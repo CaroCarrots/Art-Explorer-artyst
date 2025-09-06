@@ -176,27 +176,70 @@ async def find_similar_images(
             # Search for similar images
             scores, indices = index.search(query_embedding, top_k)
             
-            # Prepare results
-            results = []
-            for i, (score, idx) in enumerate(zip(scores[0], indices[0])):
+            # Check if we have a perfect match (similarity score >= 0.99)
+            has_perfect_match = False
+            input_image_info = None
+            
+            if len(scores[0]) > 0 and scores[0][0] >= 0.99:
+                has_perfect_match = True
+                # Get the perfect match info
+                idx = indices[0][0]
                 if idx < len(metadata):
-                    # Parse the title from the filename
                     image_path = metadata[idx]["image_path"]
                     filename = Path(image_path).name
                     parsed_title = parse_artwork_title(filename)
                     
-                    result = {
-                        "rank": i + 1,
-                        "similarity_score": float(score),
+                    input_image_info = {
                         "title": parsed_title,
                         "artist": metadata[idx]["artist"],
                         "genre": metadata[idx]["genre"],
-                        "image_path": metadata[idx]["image_path"]
+                        "image_path": metadata[idx]["image_path"],
+                        "similarity_score": float(scores[0][0])
                     }
-                    results.append(result)
+            
+            # Prepare results
+            results = []
+            if has_perfect_match:
+                # If we have a perfect match, show the input image info and similar images
+                for i, (score, idx) in enumerate(zip(scores[0], indices[0])):
+                    if idx < len(metadata):
+                        # Parse the title from the filename
+                        image_path = metadata[idx]["image_path"]
+                        filename = Path(image_path).name
+                        parsed_title = parse_artwork_title(filename)
+                        
+                        result = {
+                            "rank": i + 1,
+                            "similarity_score": float(score),
+                            "title": parsed_title,
+                            "artist": metadata[idx]["artist"],
+                            "genre": metadata[idx]["genre"],
+                            "image_path": metadata[idx]["image_path"]
+                        }
+                        results.append(result)
+            else:
+                # If no perfect match, show only the most similar images (excluding the input image)
+                for i, (score, idx) in enumerate(zip(scores[0], indices[0])):
+                    if idx < len(metadata) and len(results) < top_k:
+                        # Parse the title from the filename
+                        image_path = metadata[idx]["image_path"]
+                        filename = Path(image_path).name
+                        parsed_title = parse_artwork_title(filename)
+                        
+                        result = {
+                            "rank": i + 1,
+                            "similarity_score": float(score),
+                            "title": parsed_title,
+                            "artist": metadata[idx]["artist"],
+                            "genre": metadata[idx]["genre"],
+                            "image_path": metadata[idx]["image_path"]
+                        }
+                        results.append(result)
             
             return {
                 "query_image": file.filename,
+                "has_perfect_match": has_perfect_match,
+                "input_image_info": input_image_info,
                 "similar_images": results,
                 "total_found": len(results)
             }

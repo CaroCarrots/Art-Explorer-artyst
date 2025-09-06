@@ -12,13 +12,27 @@ interface SimilarImage {
   image_path: string;
 }
 
+interface InputImageInfo {
+  title: string;
+  artist: string;
+  genre: string;
+  image_path: string;
+  similarity_score: number;
+}
+
 interface SimilarityResult {
   query_image: string;
+  has_perfect_match: boolean;
+  input_image_info: InputImageInfo | null;
   similar_images: SimilarImage[];
   total_found: number;
 }
 
-export default function ImageSimilarityFinder() {
+interface ImageSimilarityFinderProps {
+  onBack?: () => void;
+}
+
+export default function ImageSimilarityFinder({ onBack }: ImageSimilarityFinderProps) {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -93,6 +107,22 @@ export default function ImageSimilarityFinder() {
 
   return (
     <div className="max-w-6xl mx-auto p-6 space-y-8">
+      {/* Header with Back Button */}
+      <div className="flex items-center justify-between">
+        {onBack && (
+          <motion.button
+            onClick={onBack}
+            className="flex items-center space-x-2 px-4 py-2 text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-lg transition-colors"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <span className="text-xl">←</span>
+            <span>返回主页</span>
+          </motion.button>
+        )}
+        <div className="flex-1"></div>
+      </div>
+
       <div className="text-center">
         <h1 className="text-4xl font-bold text-gray-900 mb-4">
           Art Similarity Finder
@@ -253,12 +283,29 @@ function SimilarityResultsScroll({ results }: SimilarityResultsScrollProps) {
       {/* 标题 */}
       <div className="text-center mb-12">
         <h2 className="text-3xl font-bold text-gray-900 mb-4">
-          找到相似作品
+          {results.has_perfect_match ? '作品识别结果' : '找到相似作品'}
         </h2>
         <p className="text-lg text-gray-600">
-          基于您上传的图片，我们找到了 {results.total_found} 个相似的艺术作品
+          {results.has_perfect_match 
+            ? '我们识别出了您上传的作品！' 
+            : `基于您上传的图片，我们找到了 ${results.total_found} 个相似的艺术作品`
+          }
         </p>
       </div>
+
+      {/* 输入图片信息（当有完美匹配时显示在顶部） */}
+      {results.has_perfect_match && results.input_image_info && (
+        <div className="mb-16">
+          <InputImageSection inputInfo={results.input_image_info} />
+        </div>
+      )}
+
+      {/* 未收录图片提示卡片（当没有完美匹配时显示，在相似作品上方） */}
+      {!results.has_perfect_match && (
+        <div className="mb-16">
+          <NotInDatabaseCard />
+        </div>
+      )}
 
       {/* 连续滚动的艺术作品序列 */}
       <div className="space-y-0">
@@ -291,6 +338,120 @@ function SimilarityResultsScroll({ results }: SimilarityResultsScrollProps) {
         ))}
       </motion.div>
     </div>
+  );
+}
+
+interface InputImageSectionProps {
+  inputInfo: InputImageInfo;
+}
+
+function NotInDatabaseCard() {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 50 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8, ease: "easeOut", delay: 0.5 }}
+      className="max-w-4xl mx-auto"
+    >
+      <div className="bg-gradient-to-r from-gray-50 to-gray-100 rounded-3xl p-8 shadow-lg border border-gray-200">
+        <div className="flex flex-col lg:flex-row items-center gap-8">
+          {/* 图标 */}
+          <div className="flex-shrink-0">
+            <div className="w-32 h-32 rounded-2xl bg-gray-200 flex items-center justify-center shadow-lg">
+              <div className="text-6xl text-gray-500">🔍</div>
+            </div>
+          </div>
+          
+          {/* 信息 */}
+          <div className="flex-1 text-center lg:text-left">
+            <div className="mb-4">
+              <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-700 mb-3">
+                ℹ️ 未收录作品
+              </span>
+            </div>
+            
+            <h3 className="text-3xl font-bold text-gray-800 mb-3">
+              我们暂未收录此作品
+            </h3>
+            
+            <div className="text-xl text-gray-600 mb-4">
+              但为您找到了相似的艺术作品
+            </div>
+            
+            <p className="text-lg text-gray-600 leading-relaxed">
+              很抱歉，我们目前还没有收录您上传的这幅作品。不过，我们的AI算法为您找到了风格和主题相似的艺术作品，
+              希望这些推荐能够帮助您发现更多精彩的艺术内容。
+            </p>
+            
+            <div className="mt-6 p-4 bg-gray-50 rounded-xl border border-gray-200">
+              <p className="text-sm text-gray-600">
+                <span className="font-semibold">💡 小贴士：</span>
+                如果您知道这幅作品的信息，欢迎告诉我们，我们会考虑将其加入我们的艺术数据库！
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+function InputImageSection({ inputInfo }: InputImageSectionProps) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 50 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
+      className="max-w-4xl mx-auto"
+    >
+      <div className="bg-gradient-to-r from-green-50 to-blue-50 rounded-3xl p-8 shadow-lg border border-green-200">
+        <div className="flex flex-col lg:flex-row items-center gap-8">
+          {/* 图片 */}
+          <div className="flex-shrink-0">
+            <div className="w-64 h-64 rounded-2xl overflow-hidden shadow-xl">
+              <img
+                src={`http://localhost:8000/image/${encodeURIComponent(inputInfo.image_path)}`}
+                alt={inputInfo.title}
+                className="w-full h-full object-cover"
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.style.display = 'none';
+                  const parent = target.parentElement;
+                  if (parent) {
+                    parent.innerHTML = '<div class="w-full h-full flex items-center justify-center bg-gray-100"><div class="text-6xl text-gray-400">🖼️</div></div>';
+                  }
+                }}
+              />
+            </div>
+          </div>
+          
+          {/* 信息 */}
+          <div className="flex-1 text-center lg:text-left">
+            <div className="mb-4">
+              <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800 mb-3">
+                ✅ 完美匹配 ({(inputInfo.similarity_score * 100).toFixed(1)}%)
+              </span>
+            </div>
+            
+            <h3 className="text-3xl font-bold text-gray-900 mb-3">
+              {inputInfo.title}
+            </h3>
+            
+            <div className="text-xl text-gray-700 mb-4">
+              <span className="font-semibold">{inputInfo.artist}</span>
+              <span className="mx-2">•</span>
+              <span className="text-gray-600">{Array.isArray(inputInfo.genre) ? inputInfo.genre.join(', ') : inputInfo.genre}</span>
+            </div>
+            
+            <p className="text-lg text-gray-600 leading-relaxed">
+              这是一件来自 <span className="font-semibold text-gray-800">{inputInfo.artist}</span> 的 
+              <span className="font-semibold text-gray-800">{Array.isArray(inputInfo.genre) ? inputInfo.genre.join('、') : inputInfo.genre}</span> 风格作品。
+              我们成功识别出了这幅作品！
+            </p>
+          </div>
+        </div>
+      </div>
+    </motion.div>
   );
 }
 

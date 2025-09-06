@@ -3,7 +3,12 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
 
-export default function LandingSection() {
+interface LandingSectionProps {
+  onStartSimilarityFinder?: () => void;
+  onStartStyleExplorer?: () => void;
+}
+
+export default function LandingSection({ onStartSimilarityFinder, onStartStyleExplorer }: LandingSectionProps) {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -14,10 +19,15 @@ export default function LandingSection() {
   const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
   const scale = useTransform(scrollYProgress, [0, 1], [1, 0.8]);
 
-  const scrollToUpload = () => {
-    const uploadSection = document.getElementById('upload-section');
-    if (uploadSection) {
-      uploadSection.scrollIntoView({ behavior: 'smooth' });
+  const handleStartSimilarityFinder = () => {
+    if (onStartSimilarityFinder) {
+      onStartSimilarityFinder();
+    }
+  };
+
+  const handleStartStyleExplorer = () => {
+    if (onStartStyleExplorer) {
+      onStartStyleExplorer();
     }
   };
 
@@ -63,25 +73,47 @@ export default function LandingSection() {
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 1.2, duration: 0.8 }}
-          className="space-y-4"
+          className="space-y-6"
         >
-          <motion.button
-            className="bg-gradient-to-r from-[#FF6B6B] to-[#4ECDC4] text-white px-12 py-4 rounded-full text-xl font-medium shadow-2xl hover:shadow-3xl transition-all duration-500 group"
-            onClick={scrollToUpload}
-            whileHover={{ scale: 1.05, y: -2 }}
-            whileTap={{ scale: 0.98 }}
-          >
-            <span className="flex items-center space-x-3">
-              <span>Begin Your Journey</span>
-              <motion.span
-                className="text-2xl"
-                animate={{ rotate: [0, 10, 0] }}
-                transition={{ duration: 2, repeat: Infinity }}
-              >
-                🎨
-              </motion.span>
-            </span>
-          </motion.button>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            {/* Free Exploration Button */}
+            <motion.button
+              className="bg-gradient-to-r from-[#FF6B6B] to-[#4ECDC4] text-white px-8 py-4 rounded-full text-lg font-medium shadow-2xl hover:shadow-3xl transition-all duration-500 group min-w-[200px]"
+              onClick={handleStartSimilarityFinder}
+              whileHover={{ scale: 1.05, y: -2 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <span className="flex items-center justify-center space-x-3">
+                <span>Free Exploration</span>
+                <motion.span
+                  className="text-xl"
+                  animate={{ rotate: [0, 10, 0] }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                >
+                  🔍
+                </motion.span>
+              </span>
+            </motion.button>
+
+            {/* Style Exploration Button */}
+            <motion.button
+              className="bg-gradient-to-r from-[#4ECDC4] to-[#FFE66D] text-white px-8 py-4 rounded-full text-lg font-medium shadow-2xl hover:shadow-3xl transition-all duration-500 group min-w-[200px]"
+              onClick={handleStartStyleExplorer}
+              whileHover={{ scale: 1.05, y: -2 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <span className="flex items-center justify-center space-x-3">
+                <span>Style Exploration</span>
+                <motion.span
+                  className="text-xl"
+                  animate={{ rotate: [0, -10, 0] }}
+                  transition={{ duration: 2, repeat: Infinity, delay: 0.5 }}
+                >
+                  🎭
+                </motion.span>
+              </span>
+            </motion.button>
+          </div>
           
           <motion.div
             className="text-sm text-[#718096] mt-4"

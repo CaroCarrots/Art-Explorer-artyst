@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import { motion } from 'framer-motion';
 import LandingSection from './components/LandingSection';
+import ProductIntro from './components/ProductIntro';
 import ImageSimilarityFinder from './components/ImageSimilarityFinder';
 import ExportSection from './components/ExportSection';
 
@@ -25,6 +26,7 @@ export default function Home() {
   const [currentSection, setCurrentSection] = useState(0);
   const [showStyleExplorer, setShowStyleExplorer] = useState(false);
   const [showTimeline, setShowTimeline] = useState(false);
+  const [showSimilarityFinder, setShowSimilarityFinder] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
 
   // Scroll progress tracking
@@ -36,7 +38,7 @@ export default function Home() {
       setScrollProgress(progress);
       
       // Update current section based on scroll position
-      const sections = ['landing-section', 'explore-section', 'export-section'];
+      const sections = ['landing-section', 'product-intro', 'export-section'];
       const sectionElements = sections.map(id => document.getElementById(id));
       
       let current = 0;
@@ -58,10 +60,9 @@ export default function Home() {
 
   // Section data for navigation
   const sections = [
-    { id: 'landing-section', name: '开始探索', icon: '🎨' },
-    { id: 'explore-section', name: '艺术发现', icon: '🔍' },
-    { id: 'style-explorer', name: '风格探索', icon: '🎭' },
-    { id: 'export-section', name: '保存作品', icon: '💾' }
+    { id: 'landing-section', name: 'Start Exploring', icon: '🎨' },
+    { id: 'product-intro', name: 'Product Intro', icon: '📖' },
+    { id: 'export-section', name: 'Save Works', icon: '💾' }
   ];
 
   // 如果显示时间轴，渲染它
@@ -78,6 +79,15 @@ export default function Home() {
   if (showStyleExplorer) {
     return (
       <StyleExplorer onBack={() => setShowStyleExplorer(false)} />
+    );
+  }
+
+  // 如果显示相似度检索器，渲染它
+  if (showSimilarityFinder) {
+    return (
+      <div className="min-h-screen">
+        <ImageSimilarityFinder onBack={() => setShowSimilarityFinder(false)} />
+      </div>
     );
   }
 
@@ -122,6 +132,7 @@ export default function Home() {
           ))}
         </div>
       </div>
+      
       {/* Progress Indicator */}
       <div className="fixed top-0 left-0 w-full h-1 bg-gray-200 z-50">
         <div
@@ -178,31 +189,20 @@ export default function Home() {
       <div className="relative z-10">
         {/* Landing Section */}
         <div id="landing-section">
-          <LandingSection />
+          <LandingSection 
+            onStartSimilarityFinder={() => setShowSimilarityFinder(true)}
+            onStartStyleExplorer={() => setShowStyleExplorer(true)}
+          />
         </div>
         
-        {/* Art Explore Section - 这是主要功能 */}
-        <div id="explore-section">
-          <ImageSimilarityFinder />
+        {/* Product Introduction Section */}
+        <div id="product-intro">
+          <ProductIntro 
+            onStartSimilarityFinder={() => setShowSimilarityFinder(true)}
+            onStartStyleExplorer={() => setShowStyleExplorer(true)}
+          />
         </div>
         
-        {/* Style Explorer Section */}
-        <div id="style-explorer" className="min-h-screen flex items-center justify-center p-8">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-4xl md:text-6xl font-bold text-gray-800 mb-6">
-              艺术风格探索
-            </h2>
-            <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-              选择一个艺术风格，我们将带您深入了解其发展历程、代表作品和相关分支
-            </p>
-            <button
-              onClick={() => setShowStyleExplorer(true)}
-              className="px-8 py-4 bg-gradient-to-r from-[#FF6B6B] to-[#4ECDC4] text-white text-xl font-semibold rounded-2xl hover:shadow-xl transition-all duration-300 transform hover:scale-105"
-            >
-              开始风格探索 🎭
-            </button>
-          </div>
-        </div>
         
         {/* Export Section */}
         <div id="export-section">
