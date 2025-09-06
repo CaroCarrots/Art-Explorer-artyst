@@ -34,18 +34,20 @@ export default function ExportSection({ contentRef }: { contentRef: React.RefObj
         viewport={{ once: true }}
         className="container mx-auto px-4 text-center"
       >
-        <h2 className="text-3xl md:text-4xl font-bold mb-8">Save Your Art Journey</h2>
-        <p className="mb-10 max-w-2xl mx-auto">
+        <h2 className="text-3xl md:text-4xl font-bold mb-8 bg-gradient-to-r from-[#FF6B6B] to-[#4ECDC4] bg-clip-text text-transparent">
+          Save Your Art Journey
+        </h2>
+        <p className="mb-10 max-w-2xl mx-auto text-[#4A5568] text-lg">
           Export your art exploration as an image to share or save for reference
         </p>
         
         <motion.button
-          className="px-8 py-3 bg-foreground text-background rounded-full text-lg font-medium hover:bg-opacity-90 transition-colors"
+          className="px-8 py-4 bg-gradient-to-r from-[#FF6B6B] to-[#4ECDC4] text-white rounded-full text-lg font-medium shadow-lg hover:shadow-xl transition-all duration-300"
           onClick={handleExport}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.98 }}
         >
-          Export as PNG
+          🎨 Export as PNG
         </motion.button>
       </motion.div>
     </section>
