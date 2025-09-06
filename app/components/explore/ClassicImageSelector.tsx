@@ -110,8 +110,8 @@ export default function ClassicImageSelector({ onImageSelect }: ClassicImageSele
               background: `linear-gradient(45deg, ${
                 ['#FF6B6B', '#4ECDC4', '#FFE66D', '#A8E6CF', '#FFB74D'][i % 5]
               }, transparent)`,
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
+              left: `${(i * 8.7) % 100}%`,
+              top: `${(i * 13.2) % 100}%`,
             }}
             animate={{
               y: [0, -30, 0],
@@ -120,9 +120,9 @@ export default function ClassicImageSelector({ onImageSelect }: ClassicImageSele
               opacity: [0.3, 0.6, 0.3]
             }}
             transition={{
-              duration: 6 + Math.random() * 4,
+              duration: 6 + (i * 0.4) % 4,
               repeat: Infinity,
-              delay: Math.random() * 2,
+              delay: (i * 0.3) % 2,
               ease: "easeInOut"
             }}
           />

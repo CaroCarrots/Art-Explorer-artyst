@@ -26,7 +26,7 @@ export default function ExportSection({ contentRef }: { contentRef: React.RefObj
   };
 
   return (
-    <section id="export-section" className="py-20">
+    <section id="export-section" className="py-20 relative">
       <motion.div
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
