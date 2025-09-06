@@ -19,6 +19,12 @@
 
 # production
 /build
+app/image_finder/subset_images/
+app/image_finder/subset_images.zip
+__pycache__/
+*.pyc
+
+
 
 # misc
 .DS_Store
