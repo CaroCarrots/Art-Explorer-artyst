@@ -354,9 +354,20 @@ function SimilarityArtworkSection({ image, index, totalCount, scrollProgress }: 
             <div className="relative max-w-lg w-full">
               {/* 简约的图片容器 */}
               <div className="aspect-square rounded-2xl overflow-hidden shadow-lg bg-gray-200">
-                <div className="w-full h-full flex items-center justify-center">
-                  <div className="text-6xl text-gray-400">🖼️</div>
-                </div>
+                <img
+                  src={`http://localhost:8000/image/${encodeURIComponent(image.image_path)}`}
+                  alt={image.title}
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    // Fallback to placeholder if image fails to load
+                    const target = e.target as HTMLImageElement;
+                    target.style.display = 'none';
+                    const parent = target.parentElement;
+                    if (parent) {
+                      parent.innerHTML = '<div class="w-full h-full flex items-center justify-center"><div class="text-6xl text-gray-400">🖼️</div></div>';
+                    }
+                  }}
+                />
               </div>
               
               {/* 相似度指示器 */}

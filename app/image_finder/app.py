@@ -2,6 +2,7 @@ import base64
 import json
 import logging
 import os
+import re
 import tempfile
 from pathlib import Path
 from typing import List, Dict, Any
@@ -47,6 +48,41 @@ def pick_device():
     except Exception:
         pass
     return "cpu"
+
+def parse_artwork_title(filename: str) -> str:
+    """
+    Parse artwork filename to extract and format the title.
+    
+    Example: "jan-steen_return-of-the-prodigal-son-1670" -> "Return Of The Prodigal Son"
+    """
+    try:
+        # Remove file extension
+        base_name = re.sub(r'\.(jpg|jpeg|png)$', '', filename, flags=re.IGNORECASE)
+        
+        # Split by underscore to separate artist and title-year
+        parts = base_name.split('_')
+        if len(parts) < 2:
+            return base_name.replace('-', ' ').title()
+        
+        # Get the title part (everything after the first underscore)
+        title_part = '_'.join(parts[1:])
+        
+        # Remove year at the end (4 digits)
+        title_part = re.sub(r'-\d{4}$', '', title_part)
+        
+        # Remove hash suffixes like _ae9c51ec
+        title_part = re.sub(r'_[a-f0-9]{8}$', '', title_part)
+        
+        # Remove trailing numbers that are not years
+        title_part = re.sub(r'-\d+$', '', title_part)
+        
+        # Convert to title case
+        title = title_part.replace('-', ' ').title()
+        
+        return title
+    except Exception as e:
+        logger.warning(f"Failed to parse artwork title from {filename}: {e}")
+        return filename.replace('-', ' ').title()
 
 def load_model_and_index():
     """Load the CLIP model and FAISS index"""
@@ -144,10 +180,15 @@ async def find_similar_images(
             results = []
             for i, (score, idx) in enumerate(zip(scores[0], indices[0])):
                 if idx < len(metadata):
+                    # Parse the title from the filename
+                    image_path = metadata[idx]["image_path"]
+                    filename = Path(image_path).name
+                    parsed_title = parse_artwork_title(filename)
+                    
                     result = {
                         "rank": i + 1,
                         "similarity_score": float(score),
-                        "title": metadata[idx]["title"],
+                        "title": parsed_title,
                         "artist": metadata[idx]["artist"],
                         "genre": metadata[idx]["genre"],
                         "image_path": metadata[idx]["image_path"]
@@ -180,9 +221,19 @@ async def serve_image(image_path: str):
         else:
             decoded_path = image_path
         
-        full_path = Path(decoded_path)
+        # Convert old path to new path
+        old_base = "/Users/carolinezhang/Documents/GitHub/image_detector/subset500/subset_images/"
+        new_base = str(Path(__file__).parent / "subset_images")
+        
+        if decoded_path.startswith(old_base):
+            # Extract the relative path from the old base
+            relative_path = decoded_path[len(old_base):]
+            full_path = Path(new_base) / relative_path
+        else:
+            full_path = Path(decoded_path)
         
         if not full_path.exists():
+            logger.warning(f"Image not found: {full_path}")
             raise HTTPException(status_code=404, detail="Image not found")
         
         from fastapi.responses import FileResponse
