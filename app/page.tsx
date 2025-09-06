@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import LandingSection from './components/LandingSection';
-import SimilarImagesSection from './components/SimilarImagesSection';
+import ImageSimilarityFinder from './components/ImageSimilarityFinder';
 import ExportSection from './components/ExportSection';
 
 export default function Home() {
@@ -109,7 +109,7 @@ export default function Home() {
         
         {/* Art Explore Section - 这是主要功能 */}
         <div id="explore-section">
-          <SimilarImagesSection />
+          <ImageSimilarityFinder />
         </div>
         
         {/* Export Section */}
