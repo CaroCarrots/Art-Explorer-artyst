@@ -291,6 +291,91 @@ async def serve_image(image_path: str):
         logger.error(f"Error serving image: {e}")
         raise HTTPException(status_code=500, detail="Error serving image")
 
+@app.get("/style/{style_name}/artworks")
+async def get_style_artworks(style_name: str, count: int = 3):
+    """
+    Get random artworks from a specific style
+    """
+    try:
+        import random
+        
+        # Map style names to their genre format in metadata
+        style_mapping = {
+            'High Renaissance': "['High Renaissance']",
+            'Impressionism': "['Impressionism']",
+            'impressionism': "['Impressionism']",
+            'Cubism': "['Cubism']",
+            'cubism': "['Cubism']",
+            'Contemporary Art': "['Contemporary Realism']",
+            'contemporary-art': "['Contemporary Realism']"
+        }
+        
+        # Get the correct genre format
+        genre_to_search = style_mapping.get(style_name, f"['{style_name}']")
+        
+        # Normalize style name for response
+        normalized_style_name = style_name.title() if style_name.lower() in ['impressionism', 'cubism'] else style_name
+        
+        # Find artworks with the specified style
+        style_artworks = []
+        for item in metadata:
+            if genre_to_search in item.get('genre', ''):
+                style_artworks.append(item)
+        
+        if not style_artworks:
+            raise HTTPException(status_code=404, detail=f"No artworks found for style: {style_name}")
+        
+        # Randomly select the requested number of artworks
+        selected_artworks = random.sample(style_artworks, min(count, len(style_artworks)))
+        
+        # Format the response
+        result = []
+        for artwork in selected_artworks:
+            # Parse the artwork info from the title
+            title_parts = artwork['title'].split('_')
+            if len(title_parts) >= 2:
+                artist = title_parts[0].replace('-', ' ').title()
+                title = title_parts[1].replace('-', ' ').title()
+                
+                # Extract year if present
+                year = ""
+                if len(title_parts) > 2:
+                    year_part = title_parts[2]
+                    # Look for 4-digit year
+                    year_match = re.search(r'\b(1[0-9]{3}|2[0-9]{3})\b', year_part)
+                    if year_match:
+                        year = year_match.group(1)
+                
+                # Set appropriate source based on style
+                source = f"{style_name} Collection"
+                if style_name.lower() in ['impressionism', 'high renaissance']:
+                    source = f"{style_name} Collection"
+                elif style_name.lower() in ['cubism', 'contemporary-art']:
+                    source = f"{style_name} Collection"
+                
+                result.append({
+                    'id': artwork['title'],
+                    'title': title,
+                    'artist': artist,
+                    'year': year,
+                    'style': normalized_style_name,
+                    'url': f"/image/{artwork['image_path']}",
+                    'source': source,
+                    'description': f"A masterpiece from the {normalized_style_name} period by {artist}",
+                    'styleLabels': [normalized_style_name, artist],
+                    'similarity': 1.0
+                })
+        
+        return JSONResponse(content={
+            'artworks': result,
+            'style': normalized_style_name,
+            'count': len(result)
+        })
+        
+    except Exception as e:
+        logger.error(f"Error getting style artworks: {e}")
+        raise HTTPException(status_code=500, detail=f"Error getting style artworks: {str(e)}")
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)

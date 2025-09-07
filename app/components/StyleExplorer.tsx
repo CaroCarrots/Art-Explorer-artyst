@@ -131,10 +131,53 @@ export default function StyleExplorer({ onBack, showTimeline: initialShowTimelin
     return () => window.removeEventListener('scroll', handleScroll);
   }, [explorationData, isMounted]);
 
-  const handleStyleSelect = (style: ArtStyle) => {
+  const handleStyleSelect = async (style: ArtStyle) => {
     setSelectedStyle(style);
-    const data = generateStyleExplorationData(style.id);
-    setExplorationData(data);
+    
+    // 如果是盛期文艺复兴、印象派、立体主义或当代艺术，获取真实的图片数据
+    if (style.id === 'high-renaissance' || style.id === 'impressionism' || style.id === 'cubism' || style.id === 'contemporary-art') {
+      try {
+        const styleName = style.id === 'high-renaissance' ? 'High Renaissance' : 
+                         style.id === 'impressionism' ? 'Impressionism' : 
+                         style.id === 'cubism' ? 'Cubism' : 'Contemporary Art';
+        const response = await fetch(`http://localhost:8000/style/${styleName}/artworks?count=3`);
+        if (response.ok) {
+          const styleData = await response.json();
+          const artworks = styleData.artworks;
+          
+          // 创建包含真实图片的探索数据
+          const data = generateStyleExplorationData(style.id);
+          
+          // 更新masterpieces数据为真实的图片
+          if (data && data.waterfallSections.length > 0) {
+            data.waterfallSections[0].data = artworks.map((artwork: any) => ({
+              id: artwork.id,
+              title: artwork.title,
+              artist: artwork.artist,
+              year: artwork.year,
+              url: `http://localhost:8000${artwork.url}`,
+              description: artwork.description
+            }));
+          }
+          
+          setExplorationData(data);
+        } else {
+          // 如果API调用失败，使用默认数据
+          const data = generateStyleExplorationData(style.id);
+          setExplorationData(data);
+        }
+      } catch (error) {
+        console.error(`Error fetching ${style.name} artworks:`, error);
+        // 如果出错，使用默认数据
+        const data = generateStyleExplorationData(style.id);
+        setExplorationData(data);
+      }
+    } else {
+      // 其他风格使用默认数据
+      const data = generateStyleExplorationData(style.id);
+      setExplorationData(data);
+    }
+    
     setCurrentSection(0);
     
     // 延迟触发滚动检查，确保DOM已更新
@@ -143,8 +186,8 @@ export default function StyleExplorer({ onBack, showTimeline: initialShowTimelin
       const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
       const progress = scrollHeight > 0 ? scrollTop / scrollHeight : 0;
       
-      if (data) {
-        const sections = data.waterfallSections;
+      if (explorationData) {
+        const sections = explorationData.waterfallSections;
         for (let i = sections.length - 1; i >= 0; i--) {
           if (progress >= sections[i].scrollTrigger) {
             setCurrentSection(i);

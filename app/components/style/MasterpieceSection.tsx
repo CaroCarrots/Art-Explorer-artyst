@@ -10,8 +10,6 @@ interface MasterpieceData {
   year: string;
   url: string;
   description: string;
-  techniques: string[];
-  significance: string;
 }
 
 interface MasterpieceSectionProps {
@@ -89,32 +87,9 @@ export default function MasterpieceSection({ style, masterpieces, isActive }: Ma
 
                 {/* 作品详情 */}
                 <div className="p-6">
-                  <p className="text-gray-700 mb-4 leading-relaxed">
+                  <p className="text-gray-700 leading-relaxed">
                     {masterpiece.description}
                   </p>
-
-                  {/* 技法标签 */}
-                  <div className="mb-4">
-                    <h4 className="text-sm font-semibold text-gray-600 mb-2">主要技法</h4>
-                    <div className="flex flex-wrap gap-2">
-                      {masterpiece.techniques.map((technique, techIndex) => (
-                        <span
-                          key={techIndex}
-                          className="px-3 py-1 bg-gradient-to-r from-[#FF6B6B] to-[#4ECDC4] text-white text-xs rounded-full"
-                        >
-                          {technique}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* 历史意义 */}
-                  <div className="border-t pt-4">
-                    <h4 className="text-sm font-semibold text-gray-600 mb-2">历史意义</h4>
-                    <p className="text-sm text-gray-600 leading-relaxed">
-                      {masterpiece.significance}
-                    </p>
-                  </div>
                 </div>
               </motion.div>
             ))}

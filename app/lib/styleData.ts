@@ -795,30 +795,6 @@ export const generateStyleExplorationData = (style: ArtStyle): StyleExplorationD
         component: 'MasterpieceSection',
         data: isFeaturedStyle ? featuredStyleData[style.id]?.masterpieces || [] : [],
         scrollTrigger: 0.1
-      },
-      {
-        id: 'similar-works',
-        title: '相似作品',
-        description: isFeaturedStyle ? '发现更多同风格的艺术作品' : '探索相关艺术作品（简化版本）',
-        component: 'SimilarWorksSection',
-        data: isFeaturedStyle ? featuredStyleData[style.id]?.similarWorks || [] : [],
-        scrollTrigger: 0.3
-      },
-      {
-        id: 'timeline',
-        title: '历史时间轴',
-        description: isFeaturedStyle ? '了解这一风格在艺术史中的发展脉络' : '查看艺术发展时间轴（简化版本）',
-        component: 'TimelineSection',
-        data: isFeaturedStyle ? featuredStyleData[style.id]?.timeline || [] : [],
-        scrollTrigger: 0.5
-      },
-      {
-        id: 'branches',
-        title: '相关分支',
-        description: isFeaturedStyle ? '探索与这一风格相关的其他艺术流派' : '了解相关艺术流派（简化版本）',
-        component: 'StyleBranchesSection',
-        data: isFeaturedStyle ? featuredStyleData[style.id]?.branches || [] : [],
-        scrollTrigger: 0.7
       }
     ]
   };
