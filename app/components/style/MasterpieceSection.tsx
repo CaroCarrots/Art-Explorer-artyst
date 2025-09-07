@@ -74,11 +74,15 @@ export default function MasterpieceSection({ style, masterpieces, isActive }: Ma
                 className="bg-white rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-300"
               >
                 {/* 作品图片 */}
-                <div className="relative h-64 overflow-hidden">
+                <div className="relative h-80 overflow-hidden">
                   <img
                     src={masterpiece.url}
                     alt={masterpiece.title}
-                    className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                    className={`w-full h-full object-cover transition-transform duration-300 hover:scale-105 ${
+                      masterpiece.id === 'last-supper' 
+                        ? 'object-center' 
+                        : 'object-center'
+                    }`}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
                   <div className="absolute bottom-4 left-4 right-4 text-white">

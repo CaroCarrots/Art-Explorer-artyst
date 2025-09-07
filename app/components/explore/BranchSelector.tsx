@@ -91,11 +91,11 @@ export default function BranchSelector({ exploreData, onBranchSelect }: BranchSe
             onClick={() => onBranchSelect('style')}
           >
             <div className="bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-lg transition-all duration-300 group-hover:border-gray-300">
-              <div className="aspect-[4/3] relative overflow-hidden">
+              <div className="aspect-[3/2] relative overflow-hidden">
                 <img
                   src={styleImage?.url || 'https://picsum.photos/600/400?random=20'}
                   alt="风格探索"
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors duration-300" />
                 

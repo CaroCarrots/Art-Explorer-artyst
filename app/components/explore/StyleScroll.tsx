@@ -67,11 +67,11 @@ export default function StyleScroll({ styleGroups, title, description }: StyleSc
                       onMouseLeave={() => setHoveredArtwork(null)}
                     >
                       <div className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 group-hover:scale-102">
-                        <div className="aspect-[4/3] relative overflow-hidden">
+                        <div className="aspect-[3/4] relative overflow-hidden">
                           <img
                             src={artwork.url}
                             alt={artwork.title}
-                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                            className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
                           />
                           
                           {/* 简化的悬停信息 */}
