@@ -276,11 +276,15 @@ export default function ClassicImageSelector({ onImageSelect }: ClassicImageSele
                   onClick={() => handleImageSelect(artwork)}
                 >
                   <div className="bg-white rounded-2xl p-4 shadow-lg hover:shadow-2xl transition-all duration-500 group-hover:scale-105">
-                    <div className="aspect-square rounded-xl overflow-hidden mb-4">
+                    <div className="aspect-[4/3] rounded-xl overflow-hidden mb-4">
                       <img
                         src={artwork.url}
                         alt={artwork.title}
-                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        className={`w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 ${
+                          artwork.id === 'last-supper' 
+                            ? 'object-center' 
+                            : 'object-center'
+                        }`}
                       />
                     </div>
                     <h3 className="text-lg font-bold text-[#2D3748] mb-2 line-clamp-1">

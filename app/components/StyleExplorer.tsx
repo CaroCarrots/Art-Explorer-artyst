@@ -177,7 +177,6 @@ export default function StyleExplorer({ onBack, showTimeline: initialShowTimelin
       const data = generateStyleExplorationData(style.id);
       setExplorationData(data);
     }
-    
     setCurrentSection(0);
     
     // 延迟触发滚动检查，确保DOM已更新
@@ -506,7 +505,7 @@ export default function StyleExplorer({ onBack, showTimeline: initialShowTimelin
               </button>
             </motion.div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {availableStyles.map((style, index) => (
               <motion.div
                 key={style.id}
@@ -518,11 +517,15 @@ export default function StyleExplorer({ onBack, showTimeline: initialShowTimelin
               >
                 <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
                   {/* 代表作品图片 */}
-                  <div className="relative h-64 overflow-hidden">
+                  <div className="relative h-72 overflow-hidden">
                     <img
                       src={style.representativeWork.url}
                       alt={style.representativeWork.title}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                      className={`w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ${
+                        style.representativeWork.id === 'last-supper' 
+                          ? 'object-center' 
+                          : 'object-center'
+                      }`}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
                     <div className="absolute bottom-4 left-4 text-white">

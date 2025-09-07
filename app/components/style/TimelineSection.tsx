@@ -4,9 +4,12 @@ import { motion } from 'framer-motion';
 import { ArtStyle } from '../../types/artwork';
 
 interface TimelineEventData {
-  year: number;
-  event: string;
-  description: string;
+  year?: number;
+  event?: string;
+  description?: string;
+  period?: string;
+  events?: string[];
+  significance?: string;
 }
 
 interface TimelineSectionProps {
@@ -56,7 +59,7 @@ export default function TimelineSection({ style, timeline, isActive }: TimelineS
             <div className="space-y-12">
               {timeline.map((event, index) => (
                 <motion.div
-                  key={event.year}
+                  key={event.period || event.year || index}
                   initial={{ opacity: 0, x: -50 }}
                   animate={{ 
                     opacity: isActive ? 1 : 0.6, 
@@ -71,10 +74,10 @@ export default function TimelineSection({ style, timeline, isActive }: TimelineS
                   {/* 时间点 */}
                   <div className="relative z-10 flex-shrink-0">
                     <div 
-                      className="w-16 h-16 rounded-full flex items-center justify-center text-white font-bold shadow-lg"
+                      className="w-16 h-16 rounded-full flex items-center justify-center text-white font-bold shadow-lg text-sm text-center"
                       style={{ backgroundColor: style.color }}
                     >
-                      {event.year}
+                      {event.year ? event.year : (index + 1)}
                     </div>
                   </div>
 
@@ -92,12 +95,42 @@ export default function TimelineSection({ style, timeline, isActive }: TimelineS
                       }}
                       className="bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition-all duration-300"
                     >
-                      <h3 className="text-2xl font-bold text-gray-800 mb-3">
-                        {event.event}
+                      {/* 时期标题 */}
+                      <h3 className="text-2xl font-bold text-gray-800 mb-4">
+                        {event.period || event.event}
                       </h3>
-                      <p className="text-gray-600 leading-relaxed">
-                        {event.description}
-                      </p>
+                      
+                      {/* 事件列表 */}
+                      {event.events && event.events.length > 0 && (
+                        <div className="mb-4">
+                          <h4 className="text-lg font-semibold text-gray-700 mb-2">主要事件：</h4>
+                          <ul className="space-y-2">
+                            {event.events.map((eventItem, eventIndex) => (
+                              <li key={eventIndex} className="flex items-start">
+                                <span className="text-[#4ECDC4] mr-2">•</span>
+                                <span className="text-gray-600">{eventItem}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                      
+                      {/* 意义描述 */}
+                      {event.significance && (
+                        <div className="bg-gradient-to-r from-[#FFE66D]/10 to-[#A8E6CF]/10 rounded-lg p-4">
+                          <h4 className="text-lg font-semibold text-gray-700 mb-2">历史意义：</h4>
+                          <p className="text-gray-600 leading-relaxed">
+                            {event.significance}
+                          </p>
+                        </div>
+                      )}
+                      
+                      {/* 传统格式的描述 */}
+                      {event.description && (
+                        <p className="text-gray-600 leading-relaxed">
+                          {event.description}
+                        </p>
+                      )}
                     </motion.div>
                   </div>
 

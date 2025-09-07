@@ -50,6 +50,14 @@ export interface ArtStyle {
   color: string; // 主题色
   region: string; // 发源地
   influence: string; // 影响力描述
+  techniques?: Technique[]; // 绘画技法（可选）
+}
+
+// 绘画技法类型
+export interface Technique {
+  name: string;
+  description: string;
+  example: string;
 }
 
 // 时间轴节点类型
@@ -83,6 +91,9 @@ export interface StyleBranch {
   artworks: ArtworkData[];
   influence: string; // 影响力描述
   color: string;
+  artists?: string[]; // 代表艺术家（可选）
+  characteristics?: string[]; // 艺术特征（可选）
+  relatedStyles?: string[]; // 相关风格（可选）
 }
 
 export interface WaterfallSection {
@@ -95,10 +106,10 @@ export interface WaterfallSection {
 }
 
 export interface StyleExplorationData {
-  selectedStyle: ArtStyle;
+  selectedStyle: ArtStyle | null;
   waterfallSections: WaterfallSection[];
-  timeline: TimelineEra[];
-  styleBranches: StyleBranch[];
+  timeline?: TimelineEra[];
+  styleBranches?: StyleBranch[];
 }
 
 // 后端API接口说明
