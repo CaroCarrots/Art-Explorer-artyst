@@ -1,4 +1,4 @@
-# 🎨 Art Explorer
+# 🎨 Art Explorer - artyst
 
 A comprehensive web application for exploring art styles and discovering similar artworks using AI-powered image similarity search.
 
@@ -254,7 +254,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Support
 
-For support, email [your-email@example.com] or create an issue in the repository.
+For support, email [carolinezhangyunhan@gmail.com] or create an issue in the repository.
 
 ---
 
