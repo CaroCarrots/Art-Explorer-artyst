@@ -19,8 +19,8 @@
 
 # production
 /build
-app/image_finder/subset_images/
-app/image_finder/subset_images.zip
+# app/image_finder/subset_images/  # Now using Git LFS
+# app/image_finder/subset_images.zip  # Now using Git LFS
 __pycache__/
 *.pyc
 
