@@ -1,4 +1,4 @@
-# 🎨 Art Explorer
+# 🎨 Art Explorer - artyst
 
 A comprehensive web application for exploring art styles and discovering similar artworks using AI-powered image similarity search.
 
