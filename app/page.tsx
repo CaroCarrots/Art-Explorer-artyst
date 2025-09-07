@@ -9,14 +9,14 @@ import ImageSimilarityFinder from './components/ImageSimilarityFinder';
 import ExportSection from './components/ExportSection';
 import ComingSoonSection from './components/ComingSoonSection';
 
-// 动态导入StyleExplorer，禁用SSR
+// Dynamically import StyleExplorer, disable SSR
 const StyleExplorer = dynamic(() => import('./components/StyleExplorer'), {
   ssr: false,
   loading: () => (
     <div className="min-h-screen flex items-center justify-center">
       <div className="text-center">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#FF6B6B] mx-auto mb-4"></div>
-        <p className="text-gray-600">加载中...</p>
+        <p className="text-gray-600">Loading...</p>
       </div>
     </div>
   )
@@ -67,7 +67,7 @@ export default function Home() {
     { id: 'coming-soon-section', name: 'Coming Soon', icon: '🚀' }
   ];
 
-  // 如果显示时间轴，渲染它
+  // If showing timeline, render it
   if (showTimeline) {
     return (
       <StyleExplorer 
@@ -77,14 +77,14 @@ export default function Home() {
     );
   }
 
-  // 如果显示风格探索器，渲染它
+  // If showing style explorer, render it
   if (showStyleExplorer) {
     return (
       <StyleExplorer onBack={() => setShowStyleExplorer(false)} />
     );
   }
 
-  // 如果显示相似度检索器，渲染它
+  // If showing similarity finder, render it
   if (showSimilarityFinder) {
     return (
       <div className="min-h-screen">
@@ -95,12 +95,12 @@ export default function Home() {
 
   return (
     <div className="min-h-screen relative overflow-hidden" ref={contentRef}>
-      {/* 统一的主页背景装饰 */}
+      {/* Unified homepage background decoration */}
       <div className="fixed inset-0 z-0">
-        {/* 主背景渐变 */}
+        {/* Main background gradient */}
         <div className="absolute inset-0 bg-gradient-to-br from-[#F7FAFC] via-[#FFF5F5] to-[#F0FFF4]"></div>
         
-        {/* 大型装饰圆形 - 营造整体氛围 */}
+        {/* Large decorative circles - creating overall atmosphere */}
         <div className="absolute top-0 left-0 w-full h-full">
           <div className="absolute top-1/4 left-1/6 w-96 h-96 bg-gradient-to-br from-[#FF6B6B] to-[#4ECDC4] rounded-full blur-3xl animate-pulse opacity-20"></div>
           <div className="absolute bottom-1/3 right-1/6 w-80 h-80 bg-gradient-to-br from-[#FFE66D] to-[#A8E6CF] rounded-full blur-3xl animate-pulse delay-1000 opacity-15"></div>
@@ -109,7 +109,7 @@ export default function Home() {
           <div className="absolute bottom-1/4 right-1/3 w-56 h-56 bg-gradient-to-br from-[#FFB74D] to-[#FFE66D] rounded-full blur-3xl animate-pulse delay-4000 opacity-18"></div>
         </div>
         
-        {/* 浮动粒子 - 增加动态感 */}
+        {/* Floating particles - adding dynamic feel */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           {[...Array(30)].map((_, i) => (
             <motion.div

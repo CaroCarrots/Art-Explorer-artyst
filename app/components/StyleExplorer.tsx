@@ -23,7 +23,7 @@ export default function StyleExplorer({ onBack, showTimeline: initialShowTimelin
   const [isMounted, setIsMounted] = useState(false);
   const [showTimeline, setShowTimeline] = useState(initialShowTimeline);
   
-  // 筛选状态
+  // Filter state
   const [filters, setFilters] = useState({
     timeRange: { start: 'all', end: 'all' },
     region: 'all',
@@ -36,38 +36,38 @@ export default function StyleExplorer({ onBack, showTimeline: initialShowTimelin
 
   const allStyles = getAvailableStyles();
   
-  // 预设年份选项
+  // Preset year options
   const yearOptions = [
-    { value: 'all', label: '不限' },
-    { value: '1000', label: '1000年' },
-    { value: '1200', label: '1200年' },
-    { value: '1400', label: '1400年' },
-    { value: '1600', label: '1600年' },
-    { value: '1800', label: '1800年' },
-    { value: '1900', label: '1900年' },
-    { value: '2000', label: '2000年' },
-    { value: '2024', label: '2024年' }
+    { value: 'all', label: 'All Periods' },
+    { value: '1000', label: '1000 AD' },
+    { value: '1200', label: '1200 AD' },
+    { value: '1400', label: '1400 AD' },
+    { value: '1600', label: '1600 AD' },
+    { value: '1800', label: '1800 AD' },
+    { value: '1900', label: '1900 AD' },
+    { value: '2000', label: '2000 AD' },
+    { value: '2024', label: '2024 AD' }
   ];
 
-  // 筛选后的风格列表
+  // Filtered style list
   const availableStyles = allStyles.filter(style => {
-    // 时间范围筛选
+    // Time range filter
     if (filters.timeRange.start !== 'all' || filters.timeRange.end !== 'all') {
       const startYear = filters.timeRange.start === 'all' ? 0 : parseInt(filters.timeRange.start);
       const endYear = filters.timeRange.end === 'all' ? 2024 : parseInt(filters.timeRange.end);
       
-      // 检查艺术风格的时间范围是否与选择的时间范围有重叠
+      // Check if the art style's time range overlaps with the selected time range
       if (style.endYear < startYear || style.startYear > endYear) {
         return false;
       }
     }
     
-    // 地区筛选
+    // Region filter
     if (filters.region !== 'all' && style.region !== filters.region) {
       return false;
     }
     
-    // 特征筛选
+    // Feature filter
     if (filters.characteristics.length > 0) {
       const hasMatchingCharacteristic = filters.characteristics.some(char => 
         style.characteristics.some(styleChar => 
@@ -77,7 +77,7 @@ export default function StyleExplorer({ onBack, showTimeline: initialShowTimelin
       if (!hasMatchingCharacteristic) return false;
     }
     
-    // 搜索词筛选
+    // Search term filter
     if (filters.searchTerm) {
       const searchLower = filters.searchTerm.toLowerCase();
       const matchesSearch = style.name.toLowerCase().includes(searchLower) ||
@@ -89,12 +89,12 @@ export default function StyleExplorer({ onBack, showTimeline: initialShowTimelin
     return true;
   });
 
-  // 客户端检查和挂载检查
+  // Client-side check and mount check
   useEffect(() => {
     setIsMounted(true);
   }, []);
 
-  // 使用原生滚动监听
+  // Use native scroll listener
   useEffect(() => {
     if (!isMounted) return;
 
@@ -105,7 +105,7 @@ export default function StyleExplorer({ onBack, showTimeline: initialShowTimelin
       
       setScrollProgress(progress);
       
-      // 根据滚动进度确定当前章节
+      // Determine current section based on scroll progress
       if (explorationData) {
         const sections = explorationData.waterfallSections;
         let newSection = 0;
@@ -116,16 +116,16 @@ export default function StyleExplorer({ onBack, showTimeline: initialShowTimelin
           }
         }
         
-        // 调试信息
+        // Debug info
         console.log('Scroll Progress:', progress, 'Current Section:', newSection, 'Sections:', sections.map(s => ({ id: s.id, trigger: s.scrollTrigger })));
         
         setCurrentSection(newSection);
       }
     };
 
-    // 监听window滚动事件
+    // Listen to window scroll events
     window.addEventListener('scroll', handleScroll);
-    // 初始调用一次
+    // Initial call once
     handleScroll();
     
     return () => window.removeEventListener('scroll', handleScroll);
@@ -134,7 +134,7 @@ export default function StyleExplorer({ onBack, showTimeline: initialShowTimelin
   const handleStyleSelect = async (style: ArtStyle) => {
     setSelectedStyle(style);
     
-    // 如果是盛期文艺复兴、印象派、立体主义或当代艺术，获取真实的图片数据
+    // If it's High Renaissance, Impressionism, Cubism, or Contemporary Art, get real image data
     if (style.id === 'high-renaissance' || style.id === 'impressionism' || style.id === 'cubism' || style.id === 'contemporary-art') {
       try {
         const styleName = style.id === 'high-renaissance' ? 'High Renaissance' : 
@@ -145,10 +145,10 @@ export default function StyleExplorer({ onBack, showTimeline: initialShowTimelin
           const styleData = await response.json();
           const artworks = styleData.artworks;
           
-          // 创建包含真实图片的探索数据
+          // Create exploration data with real images
           const data = generateStyleExplorationData(style.id);
           
-          // 更新masterpieces数据为真实的图片
+          // Update masterpieces data with real images
           if (data && data.waterfallSections.length > 0) {
             data.waterfallSections[0].data = artworks.map((artwork: any) => ({
               id: artwork.id,
@@ -162,24 +162,24 @@ export default function StyleExplorer({ onBack, showTimeline: initialShowTimelin
           
           setExplorationData(data);
         } else {
-          // 如果API调用失败，使用默认数据
+          // If API call fails, use default data
           const data = generateStyleExplorationData(style.id);
           setExplorationData(data);
         }
       } catch (error) {
         console.error(`Error fetching ${style.name} artworks:`, error);
-        // 如果出错，使用默认数据
+        // If error occurs, use default data
         const data = generateStyleExplorationData(style.id);
         setExplorationData(data);
       }
     } else {
-      // 其他风格使用默认数据
+      // Other styles use default data
       const data = generateStyleExplorationData(style.id);
       setExplorationData(data);
     }
     setCurrentSection(0);
     
-    // 延迟触发滚动检查，确保DOM已更新
+    // Delay scroll check to ensure DOM is updated
     setTimeout(() => {
       const scrollTop = window.scrollY;
       const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
@@ -203,50 +203,50 @@ export default function StyleExplorer({ onBack, showTimeline: initialShowTimelin
     setCurrentSection(0);
   };
 
-  // 确保组件完全挂载后再渲染
+  // Ensure component is fully mounted before rendering
   if (!isMounted) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#FF6B6B] mx-auto mb-4"></div>
-          <p className="text-gray-600">加载中...</p>
+          <p className="text-gray-600">Loading...</p>
         </div>
       </div>
     );
   }
 
-  // 如果显示时间轴
+  // If showing timeline
   if (showTimeline) {
     return (
       <ArtTimeline 
         nodes={timelineNodes}
         onNodeClick={(node) => {
-          // 如果节点有相关风格，选择第一个风格
+          // If node has related styles, select the first style
           if (node.styles.length > 0) {
             handleStyleSelect(node.styles[0]);
             setShowTimeline(false);
           } else {
-            // 如果没有详细内容，创建一个临时的艺术风格对象
+            // If no detailed content, create a temporary art style object
             const tempStyle: ArtStyle = {
               id: node.id,
               name: node.title,
               description: node.description,
-              period: `${node.year}年`,
+              period: `${node.year} AD`,
               startYear: node.year,
-              endYear: node.year + 50, // 假设持续50年
-              region: '全球',
+              endYear: node.year + 50, // Assume duration of 50 years
+              region: 'Global',
               influence: node.significance,
-              characteristics: ['历史风格', '艺术发展', '文化影响'],
+              characteristics: ['Historical Style', 'Art Development', 'Cultural Influence'],
               representativeWork: {
                 id: `${node.id}-work`,
-                title: `${node.title}代表作品`,
-                artist: node.representativeArtists[0] || '匿名',
+                title: `${node.title} Masterpiece`,
+                artist: node.representativeArtists[0] || 'Anonymous',
                 year: `${node.year}`,
                 style: node.title,
                 url: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600',
-                source: '历史资料',
-                description: `这是${node.title}时期的代表作品，展现了该艺术风格的特征。`,
-                styleLabels: [node.title, '历史艺术'],
+                source: 'Historical Records',
+                description: `This is a masterpiece from the ${node.title} period, showcasing the characteristics of this art style.`,
+                styleLabels: [node.title, 'Historical Art'],
                 similarity: 1.0
               },
               relatedStyles: [],
@@ -261,18 +261,18 @@ export default function StyleExplorer({ onBack, showTimeline: initialShowTimelin
     );
   }
 
-  // 如果还没有选择风格，显示风格选择界面
+  // If no style selected yet, show style selection interface
   if (!selectedStyle || !explorationData) {
     return (
       <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-[#F7FAFC] to-[#EDF2F7]">
-        {/* 背景装饰 - 匹配主页设计 */}
+        {/* Background decoration - matching homepage design */}
         <div className="absolute inset-0">
           <div className="absolute top-1/4 left-1/6 w-96 h-96 bg-gradient-to-br from-[#FF6B6B] to-[#4ECDC4] rounded-full blur-3xl animate-pulse opacity-60"></div>
           <div className="absolute bottom-1/3 right-1/6 w-80 h-80 bg-gradient-to-br from-[#FFE66D] to-[#A8E6CF] rounded-full blur-3xl animate-pulse delay-1000 opacity-50"></div>
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-gradient-to-br from-[#FFB74D] to-[#FF6B6B] rounded-full blur-3xl animate-pulse delay-2000 opacity-40"></div>
         </div>
         
-        {/* 浮动粒子 */}
+        {/* Floating particles */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           {[...Array(20)].map((_, i) => (
             <motion.div
@@ -297,7 +297,7 @@ export default function StyleExplorer({ onBack, showTimeline: initialShowTimelin
         </div>
         
         <div className="relative z-10 p-8">
-        {/* 返回按钮 - 左上角 */}
+        {/* Back button - top left */}
         {onBack && (
           <motion.div
             initial={{ opacity: 0, x: -20 }}
@@ -310,41 +310,41 @@ export default function StyleExplorer({ onBack, showTimeline: initialShowTimelin
               className="px-6 py-3 bg-white/90 backdrop-blur-md text-gray-700 rounded-xl hover:bg-white transition-colors duration-200 shadow-lg flex items-center space-x-2"
             >
               <span>←</span>
-              <span>返回主页</span>
+              <span>Back to Home</span>
             </button>
           </motion.div>
         )}
         
         <div className="max-w-6xl mx-auto">
-          {/* 标题 */}
+          {/* Title */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="text-center mb-8"
           >
             <h1 className="text-4xl md:text-6xl font-bold text-gray-800 mb-4">
-              艺术风格探索
+              Art Style Exploration
             </h1>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-8">
-              选择一个艺术风格，我们将带您深入了解其发展历程、代表作品和相关分支
+              Select an art style and we'll take you on a deep dive into its development, masterpieces, and related branches
             </p>
             <div className="flex flex-wrap justify-center gap-4 mb-8">
               <button
                 onClick={() => setShowTimeline(true)}
                 className="px-6 py-3 bg-gradient-to-r from-[#4ECDC4] to-[#45B7B8] text-white text-lg font-medium rounded-xl hover:shadow-lg transition-all duration-300 transform hover:scale-105"
               >
-                📅 查看艺术时间轴
+                📅 View Art Timeline
               </button>
               <button
                 onClick={() => setShowFilters(!showFilters)}
                 className="px-6 py-3 bg-gradient-to-r from-[#FF6B6B] to-[#FF8E8E] text-white text-lg font-medium rounded-xl hover:shadow-lg transition-all duration-300 transform hover:scale-105"
               >
-                🔍 筛选风格
+                🔍 Filter Styles
               </button>
             </div>
           </motion.div>
 
-          {/* 筛选面板 */}
+          {/* Filter panel */}
           {showFilters && (
             <motion.div
               initial={{ opacity: 0, height: 0 }}
@@ -353,24 +353,24 @@ export default function StyleExplorer({ onBack, showTimeline: initialShowTimelin
               className="bg-white/90 backdrop-blur-md rounded-2xl p-6 mb-8 shadow-lg border border-white/20"
             >
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                {/* 搜索框 */}
+                {/* Search box */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">搜索</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Search</label>
                   <input
                     type="text"
-                    placeholder="搜索风格名称或特征..."
+                    placeholder="Search style names or features..."
                     value={filters.searchTerm}
                     onChange={(e) => setFilters(prev => ({ ...prev, searchTerm: e.target.value }))}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#4ECDC4] focus:border-transparent"
                   />
                 </div>
 
-                {/* 时间范围 */}
+                {/* Time range */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">时间范围</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Time Period</label>
                   <div className="flex items-end space-x-2">
                     <div className="flex-1">
-                      <label className="block text-xs text-gray-500 mb-1">开始时间</label>
+                      <label className="block text-xs text-gray-500 mb-1">Start Time</label>
                       <select
                         value={filters.timeRange.start}
                         onChange={(e) => setFilters(prev => ({ 
@@ -387,10 +387,10 @@ export default function StyleExplorer({ onBack, showTimeline: initialShowTimelin
                       </select>
                     </div>
                     <div className="flex-shrink-0 px-2 py-2 text-gray-400">
-                      <span className="text-sm">至</span>
+                      <span className="text-sm">to</span>
                     </div>
                     <div className="flex-1">
-                      <label className="block text-xs text-gray-500 mb-1">结束时间</label>
+                      <label className="block text-xs text-gray-500 mb-1">End Time</label>
                       <select
                         value={filters.timeRange.end}
                         onChange={(e) => setFilters(prev => ({ 
@@ -409,29 +409,29 @@ export default function StyleExplorer({ onBack, showTimeline: initialShowTimelin
                   </div>
                 </div>
 
-                {/* 地区筛选 */}
+                {/* Region filter */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">地区</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Region</label>
                   <select
                     value={filters.region}
                     onChange={(e) => setFilters(prev => ({ ...prev, region: e.target.value }))}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#4ECDC4] focus:border-transparent"
                   >
-                    <option value="all">全部地区</option>
-                    <option value="意大利">意大利</option>
-                    <option value="法国">法国</option>
-                    <option value="德国">德国</option>
-                    <option value="美国">美国</option>
-                    <option value="欧洲">欧洲</option>
-                    <option value="全球">全球</option>
+                    <option value="all">All Regions</option>
+                    <option value="意大利">Italy</option>
+                    <option value="法国">France</option>
+                    <option value="德国">Germany</option>
+                    <option value="美国">United States</option>
+                    <option value="欧洲">Europe</option>
+                    <option value="全球">Global</option>
                   </select>
                 </div>
 
-                {/* 特征筛选 */}
+                {/* Feature filter */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">艺术特征</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Art Features</label>
                   <div className="flex flex-wrap gap-2">
-                    {['透视法', '色彩', '几何', '情感', '抽象', '写实', '装饰', '宗教'].map(char => (
+                    {['Perspective', 'Color', 'Geometry', 'Emotion', 'Abstract', 'Realistic', 'Decorative', 'Religious'].map(char => (
                       <button
                         key={char}
                         onClick={() => {
@@ -453,11 +453,11 @@ export default function StyleExplorer({ onBack, showTimeline: initialShowTimelin
                 </div>
               </div>
 
-              {/* 筛选结果统计和操作按钮 */}
+              {/* Filter results statistics and action buttons */}
               <div className="mt-4 pt-4 border-t border-gray-200 flex flex-col sm:flex-row justify-between items-center gap-4">
                 <p className="text-sm text-gray-600">
-                  找到 <span className="font-semibold text-[#4ECDC4]">{availableStyles.length}</span> 个艺术风格
-                  {filters.searchTerm && ` (搜索: "${filters.searchTerm}")`}
+                  Found <span className="font-semibold text-[#4ECDC4]">{availableStyles.length}</span> art styles
+                  {filters.searchTerm && ` (search: "${filters.searchTerm}")`}
                 </p>
                 <div className="flex gap-2">
                   <button
@@ -469,20 +469,20 @@ export default function StyleExplorer({ onBack, showTimeline: initialShowTimelin
                     })}
                     className="px-4 py-2 text-sm text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-lg transition-colors"
                   >
-                    重置筛选
+                    Reset Filters
                   </button>
                   <button
                     onClick={() => setShowFilters(false)}
                     className="px-4 py-2 text-sm bg-gray-100 text-gray-700 hover:bg-gray-200 rounded-lg transition-colors"
                   >
-                    收起筛选
+                    Collapse Filters
                   </button>
                 </div>
               </div>
             </motion.div>
           )}
 
-          {/* 风格选择网格 */}
+          {/* Style selection grid */}
           {availableStyles.length === 0 ? (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -490,8 +490,8 @@ export default function StyleExplorer({ onBack, showTimeline: initialShowTimelin
               className="text-center py-12"
             >
               <div className="text-6xl mb-4">🔍</div>
-              <h3 className="text-2xl font-bold text-gray-800 mb-2">未找到匹配的艺术风格</h3>
-              <p className="text-gray-600 mb-6">请尝试调整筛选条件或搜索关键词</p>
+              <h3 className="text-2xl font-bold text-gray-800 mb-2">No matching art styles found</h3>
+              <p className="text-gray-600 mb-6">Please try adjusting your filter criteria or search keywords</p>
               <button
                 onClick={() => setFilters({
                   timeRange: { start: 'all', end: 'all' },
@@ -501,7 +501,7 @@ export default function StyleExplorer({ onBack, showTimeline: initialShowTimelin
                 })}
                 className="px-6 py-3 bg-gradient-to-r from-[#4ECDC4] to-[#45B7B8] text-white font-medium rounded-xl hover:shadow-lg transition-all duration-300"
               >
-                重置筛选
+                Reset Filters
               </button>
             </motion.div>
           ) : (
@@ -516,7 +516,7 @@ export default function StyleExplorer({ onBack, showTimeline: initialShowTimelin
                 onClick={() => handleStyleSelect(style)}
               >
                 <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
-                  {/* 代表作品图片 */}
+                  {/* Representative artwork image */}
                   <div className="relative h-72 overflow-hidden">
                     <img
                       src={style.representativeWork.url}
@@ -534,7 +534,7 @@ export default function StyleExplorer({ onBack, showTimeline: initialShowTimelin
                     </div>
                   </div>
 
-                  {/* 风格信息 */}
+                  {/* Style information */}
                   <div className="p-6">
                     <h2 className="text-2xl font-bold text-gray-800 mb-2">{style.name}</h2>
                     <p className="text-gray-600 mb-4 line-clamp-3">{style.description}</p>
@@ -570,10 +570,10 @@ export default function StyleExplorer({ onBack, showTimeline: initialShowTimelin
     );
   }
 
-  // 瀑布流探索界面
+  // Waterfall exploration interface
   return (
     <div ref={containerRef} className="min-h-screen bg-gradient-to-br from-[#F7FAFC] to-[#EDF2F7]">
-      {/* 进度指示器 */}
+      {/* Progress indicator */}
       <div className="fixed top-0 left-0 w-full h-1 bg-gray-200 z-50">
         <motion.div
           className="h-full bg-gradient-to-r from-[#FF6B6B] to-[#4ECDC4]"
@@ -581,7 +581,7 @@ export default function StyleExplorer({ onBack, showTimeline: initialShowTimelin
         />
       </div>
 
-      {/* 版本提示 */}
+      {/* Version notice */}
       {selectedStyle && !['high-renaissance', 'impressionism', 'cubism', 'contemporary-art'].includes(selectedStyle.id) && (
         <div className="fixed top-20 left-1/2 transform -translate-x-1/2 z-40">
           <motion.div
@@ -591,13 +591,13 @@ export default function StyleExplorer({ onBack, showTimeline: initialShowTimelin
           >
             <div className="flex items-center space-x-2">
               <span className="text-lg">ℹ️</span>
-              <span className="text-sm font-medium">当前为简化版本，完整内容敬请期待</span>
+              <span className="text-sm font-medium">Currently a simplified version, full content coming soon</span>
             </div>
           </motion.div>
         </div>
       )}
 
-      {/* 章节导航 */}
+      {/* Section navigation */}
       <div className="fixed right-8 top-1/2 transform -translate-y-1/2 z-40 hidden lg:block">
         <div className="space-y-4">
           {explorationData.waterfallSections.map((section, index) => (
@@ -618,23 +618,23 @@ export default function StyleExplorer({ onBack, showTimeline: initialShowTimelin
         </div>
       </div>
 
-      {/* 返回按钮和时间轴按钮 */}
+      {/* Back button and timeline button */}
       <div className="fixed top-8 left-8 z-40 space-x-3">
         <button
           onClick={handleBackToSelection}
           className="px-6 py-3 bg-white/90 backdrop-blur-md text-gray-700 rounded-xl hover:bg-white transition-colors duration-200 shadow-lg"
         >
-          ← 选择其他风格
+          ← Select Other Style
         </button>
         <button
           onClick={() => setShowTimeline(true)}
           className="px-6 py-3 bg-gradient-to-r from-[#4ECDC4] to-[#45B7B8] text-white rounded-xl hover:shadow-lg transition-all duration-300 transform hover:scale-105"
         >
-          📅 时间轴
+          📅 Timeline
         </button>
       </div>
 
-      {/* 瀑布流内容 */}
+      {/* Waterfall content */}
       <div className="relative">
         {explorationData.waterfallSections.map((section, index) => (
           <div key={section.id} id={section.id} className="min-h-screen">

@@ -10,7 +10,7 @@ interface ProductIntroProps {
 export default function ProductIntro({ onStartSimilarityFinder, onStartStyleExplorer }: ProductIntroProps) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#F7FAFC] via-[#FFF5F5] to-[#F0FFF4] relative overflow-hidden">
-      {/* 背景装饰 */}
+      {/* Background decoration */}
       <div className="absolute inset-0">
         <div className="absolute top-1/4 left-1/6 w-96 h-96 bg-gradient-to-br from-[#FF6B6B] to-[#4ECDC4] rounded-full blur-3xl animate-pulse opacity-20"></div>
         <div className="absolute bottom-1/3 right-1/6 w-80 h-80 bg-gradient-to-br from-[#FFE66D] to-[#A8E6CF] rounded-full blur-3xl animate-pulse delay-1000 opacity-15"></div>
@@ -18,7 +18,7 @@ export default function ProductIntro({ onStartSimilarityFinder, onStartStyleExpl
       </div>
 
       <div className="relative z-10 max-w-6xl mx-auto px-6 py-16">
-        {/* 标题部分 */}
+        {/* Title section */}
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
@@ -35,7 +35,7 @@ export default function ProductIntro({ onStartSimilarityFinder, onStartStyleExpl
           </p>
         </motion.div>
 
-        {/* 功能卡片 */}
+        {/* Feature cards */}
         <div className="grid md:grid-cols-2 gap-8 mb-16">
           {/* Free Exploration Card */}
           <motion.div

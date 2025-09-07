@@ -16,7 +16,7 @@ export default function StyleScroll({ styleGroups, title, description }: StyleSc
   return (
     <div className="min-h-screen py-20 bg-white">
       <div className="container mx-auto px-4">
-        {/* 简化的标题区域 */}
+        {/* Simplified title area */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -31,7 +31,7 @@ export default function StyleScroll({ styleGroups, title, description }: StyleSc
           </p>
         </motion.div>
 
-        {/* 风格分组 */}
+        {/* Style groups */}
         <div className="space-y-16">
           {styleGroups.map((group, groupIndex) => (
             <motion.section
@@ -42,7 +42,7 @@ export default function StyleScroll({ styleGroups, title, description }: StyleSc
               viewport={{ once: true }}
               className="relative"
             >
-              {/* 简化的风格标题 */}
+              {/* Simplified style title */}
               <div className="mb-8">
                 <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3">
                   {group.styleName}
@@ -52,7 +52,7 @@ export default function StyleScroll({ styleGroups, title, description }: StyleSc
                 </p>
               </div>
 
-              {/* 简约的横向滚动画廊 */}
+              {/* Minimalist horizontal scrolling gallery */}
               <div className="relative">
                 <div className="flex space-x-4 overflow-x-auto pb-4 scrollbar-hide">
                   {group.artworks.map((artwork, artworkIndex) => (

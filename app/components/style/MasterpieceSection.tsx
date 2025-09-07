@@ -28,7 +28,7 @@ export default function MasterpieceSection({ style, masterpieces, isActive }: Ma
           transition={{ duration: 0.8, ease: 'easeOut' }}
           className="text-center"
         >
-          {/* 主标题 */}
+          {/* Main title */}
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: isActive ? 1 : 0.5, y: isActive ? 0 : 30 }}
@@ -47,7 +47,7 @@ export default function MasterpieceSection({ style, masterpieces, isActive }: Ma
             {style.description}
           </motion.p>
 
-          {/* 代表作品展示 */}
+          {/* Representative artworks display */}
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ 
@@ -71,7 +71,7 @@ export default function MasterpieceSection({ style, masterpieces, isActive }: Ma
                 }}
                 className="bg-white rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-300"
               >
-                {/* 作品图片 */}
+                {/* Artwork image */}
                 <div className="relative h-80 overflow-hidden">
                   <img
                     src={masterpiece.url}
@@ -89,7 +89,7 @@ export default function MasterpieceSection({ style, masterpieces, isActive }: Ma
                   </div>
                 </div>
 
-                {/* 作品详情 */}
+                {/* Artwork details */}
                 <div className="p-6">
                   <p className="text-gray-700 leading-relaxed">
                     {masterpiece.description}
@@ -99,7 +99,7 @@ export default function MasterpieceSection({ style, masterpieces, isActive }: Ma
             ))}
           </motion.div>
 
-          {/* 底部装饰 */}
+          {/* Bottom decoration */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: isActive ? 1 : 0.3 }}
@@ -108,7 +108,7 @@ export default function MasterpieceSection({ style, masterpieces, isActive }: Ma
           >
             <div className="inline-flex items-center space-x-2 text-gray-500">
               <div className="w-8 h-0.5 bg-gradient-to-r from-[#FF6B6B] to-[#4ECDC4]"></div>
-              <span className="text-sm font-medium">代表作品</span>
+              <span className="text-sm font-medium">Masterpieces</span>
               <div className="w-8 h-0.5 bg-gradient-to-r from-[#4ECDC4] to-[#FF6B6B]"></div>
             </div>
           </motion.div>

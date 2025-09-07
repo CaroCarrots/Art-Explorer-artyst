@@ -75,7 +75,7 @@ export default function ArtTimeline({ nodes, onNodeClick, onBack }: ArtTimelineP
               className="px-6 py-3 bg-white/90 backdrop-blur-md text-gray-700 rounded-xl hover:bg-white transition-colors duration-200 shadow-lg flex items-center space-x-2"
             >
               <span>←</span>
-              <span>返回风格选择</span>
+              <span>Back to Style Selection</span>
             </button>
           </motion.div>
         )}
@@ -88,13 +88,13 @@ export default function ArtTimeline({ nodes, onNodeClick, onBack }: ArtTimelineP
           className="text-center mb-16"
         >
           <h2 className="text-4xl md:text-6xl font-bold text-gray-800 mb-4">
-            🎨 西方艺术风格时间线
+            🎨 Western Art Style Timeline
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-2">
-            探索约1000年西方艺术风格的历史发展脉络
+            Explore the historical development of Western art styles over 1000 years
           </p>
           <p className="text-lg text-gray-500 max-w-4xl mx-auto">
-            从中世纪罗曼式到当代艺术，了解不同时期的艺术特征、代表作品和历史影响
+            From medieval Romanesque to contemporary art, discover the characteristics, masterpieces, and historical influences of different periods
           </p>
         </motion.div>
 
@@ -189,7 +189,7 @@ export default function ArtTimeline({ nodes, onNodeClick, onBack }: ArtTimelineP
                       >
                         <h4 className="font-semibold text-gray-800 mb-3 flex items-center">
                           <span className="w-2 h-2 rounded-full mr-2" style={{ backgroundColor: node.color }}></span>
-                          代表作家
+                          Representative Artists
                         </h4>
                         <div className="flex flex-wrap gap-2">
                           {node.representativeArtists.map((artist, index) => (
@@ -215,7 +215,7 @@ export default function ArtTimeline({ nodes, onNodeClick, onBack }: ArtTimelineP
                       >
                         <h4 className="font-semibold text-gray-800 mb-3 flex items-center">
                           <span className="w-2 h-2 rounded-full mr-2" style={{ backgroundColor: node.color }}></span>
-                          历史意义
+                          Historical Significance
                         </h4>
                         <p className="text-sm text-gray-700 leading-relaxed">{node.significance}</p>
                       </div>
@@ -236,26 +236,26 @@ export default function ArtTimeline({ nodes, onNodeClick, onBack }: ArtTimelineP
         >
           <div className="bg-gradient-to-r from-[#FF6B6B] to-[#4ECDC4] rounded-2xl p-8 max-w-4xl mx-auto text-white">
             <div className="text-6xl mb-4">🚀</div>
-            <h3 className="text-3xl font-bold mb-4">更多内容，后续更新</h3>
+            <h3 className="text-3xl font-bold mb-4">More Content Coming Soon</h3>
             <p className="text-lg leading-relaxed mb-6">
-              我们正在持续开发更多精彩的艺术风格探索功能！
+              We're continuously developing more exciting art style exploration features!
             </p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
               <div className="bg-white/20 rounded-lg p-4">
-                <div className="font-semibold mb-2">🎨 更多艺术风格</div>
-                <p>巴洛克、洛可可、浪漫主义、现实主义等</p>
+                <div className="font-semibold mb-2">🎨 More Art Styles</div>
+                <p>Baroque, Rococo, Romanticism, Realism and more</p>
               </div>
               <div className="bg-white/20 rounded-lg p-4">
-                <div className="font-semibold mb-2">🌍 地区艺术</div>
-                <p>中国、日本、印度、非洲等世界艺术</p>
+                <div className="font-semibold mb-2">🌍 Regional Arts</div>
+                <p>Chinese, Japanese, Indian, African and world art</p>
               </div>
               <div className="bg-white/20 rounded-lg p-4">
-                <div className="font-semibold mb-2">🔍 深度探索</div>
-                <p>作品分析、技法解析、影响关系等</p>
+                <div className="font-semibold mb-2">🔍 Deep Exploration</div>
+                <p>Artwork analysis, technique studies, influence relationships</p>
               </div>
             </div>
             <div className="mt-6 text-sm opacity-80">
-              敬请期待更多精彩内容！
+              Stay tuned for more exciting content!
             </div>
           </div>
         </motion.div>
@@ -268,16 +268,16 @@ export default function ArtTimeline({ nodes, onNodeClick, onBack }: ArtTimelineP
           className="text-center mt-20"
         >
           <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 max-w-5xl mx-auto">
-            <h3 className="text-2xl font-bold text-gray-800 mb-4">西方艺术发展的连续性</h3>
+            <h3 className="text-2xl font-bold text-gray-800 mb-4">The Continuity of Western Art Development</h3>
             <p className="text-gray-600 leading-relaxed mb-4">
-              从1000年的罗曼式艺术到今天的当代艺术，每个艺术风格都不是孤立存在的。
-              它们相互影响、相互传承，形成了西方艺术史的完整脉络。
+              From Romanesque art of 1000 AD to today's contemporary art, no art style exists in isolation.
+              They influence and inherit from each other, forming the complete thread of Western art history.
             </p>
             <p className="text-gray-600 leading-relaxed">
-              从宗教艺术的庄严神圣，到文艺复兴的人文主义觉醒，
-              从巴洛克的戏剧性表达，到印象派的光影革命，
-              再到20世纪前卫艺术的彻底革新，
-              艺术始终在反映着人类文明的发展历程和思想变迁。
+              From the solemn sanctity of religious art to the humanistic awakening of the Renaissance,
+              from the dramatic expression of Baroque to the light and shadow revolution of Impressionism,
+              to the radical innovation of 20th-century avant-garde art,
+              art has always reflected the development of human civilization and the evolution of thought.
             </p>
           </div>
         </motion.div>

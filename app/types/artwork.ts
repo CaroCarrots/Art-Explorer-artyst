@@ -1,4 +1,4 @@
-// 艺术探索相关的类型定义
+// Type definitions related to art exploration
 
 export interface ArtworkData {
   id: string;
@@ -36,24 +36,24 @@ export interface StyleGroup {
 
 export type ExploreMode = 'selection' | 'similarity' | 'style' | 'overview';
 
-// 艺术风格探索相关类型定义
+// Art style exploration related type definitions
 export interface ArtStyle {
   id: string;
   name: string;
   description: string;
-  period: string; // 时期，如 "14-17世纪"
-  startYear: number; // 开始年份
-  endYear: number; // 结束年份
-  characteristics: string[]; // 特征描述
-  representativeWork: ArtworkData; // 代表作
-  relatedStyles: string[]; // 相关风格ID
-  color: string; // 主题色
-  region: string; // 发源地
-  influence: string; // 影响力描述
-  techniques?: Technique[]; // 绘画技法（可选）
+  period: string; // Period, e.g., "14th-17th century"
+  startYear: number; // Start year
+  endYear: number; // End year
+  characteristics: string[]; // Feature descriptions
+  representativeWork: ArtworkData; // Representative work
+  relatedStyles: string[]; // Related style IDs
+  color: string; // Theme color
+  region: string; // Origin
+  influence: string; // Influence description
+  techniques?: Technique[]; // Painting techniques (optional)
 }
 
-// 绘画技法类型
+// Painting technique type
 export interface Technique {
   name: string;
   description: string;

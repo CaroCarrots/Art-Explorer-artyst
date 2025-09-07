@@ -262,14 +262,14 @@ function SimilarityResultsScroll({ results }: SimilarityResultsScrollProps) {
     offset: ["start start", "end end"]
   });
 
-  // 使用 spring 让滚动更加丝滑
+  // Use spring to make scrolling smoother
   const smoothProgress = useSpring(scrollYProgress, {
     stiffness: 100,
     damping: 30,
     restDelta: 0.001
   });
 
-  // 为每个进度指示器创建独立的动画值
+  // Create independent animation values for each progress indicator
   const progressIndicators = results.similar_images.map((_, index) => 
     useTransform(
       smoothProgress,
@@ -280,7 +280,7 @@ function SimilarityResultsScroll({ results }: SimilarityResultsScrollProps) {
 
   return (
     <div ref={containerRef} className="relative">
-      {/* 标题 */}
+      {/* Title */}
       <div className="text-center mb-12">
         <h2 className="text-3xl font-bold text-gray-900 mb-4">
           {results.has_perfect_match ? 'Artwork Recognition Results' : 'Similar Artworks Found'}
@@ -293,21 +293,21 @@ function SimilarityResultsScroll({ results }: SimilarityResultsScrollProps) {
         </p>
       </div>
 
-      {/* 输入图片信息（当有完美匹配时显示在顶部） */}
+      {/* Input image information (displayed at top when there's a perfect match) */}
       {results.has_perfect_match && results.input_image_info && (
         <div className="mb-16">
           <InputImageSection inputInfo={results.input_image_info} />
         </div>
       )}
 
-      {/* 未收录图片提示卡片（当没有完美匹配时显示，在相似作品上方） */}
+      {/* Unregistered image notice card (displayed when no perfect match, above similar works) */}
       {!results.has_perfect_match && (
         <div className="mb-16">
           <NotInDatabaseCard />
         </div>
       )}
 
-      {/* 连续滚动的艺术作品序列 */}
+      {/* Continuous scrolling artwork sequence */}
       <div className="space-y-0">
         {results.similar_images.map((image, index) => (
           <SimilarityArtworkSection
@@ -320,7 +320,7 @@ function SimilarityResultsScroll({ results }: SimilarityResultsScrollProps) {
         ))}
       </div>
 
-      {/* 简约的进度指示器 */}
+      {/* Minimalist progress indicator */}
       <motion.div 
         className="fixed right-8 top-1/2 transform -translate-y-1/2 space-y-1 z-40"
         initial={{ opacity: 0 }}
@@ -355,14 +355,14 @@ function NotInDatabaseCard() {
     >
       <div className="bg-gradient-to-r from-gray-50 to-gray-100 rounded-3xl p-8 shadow-lg border border-gray-200">
         <div className="flex flex-col lg:flex-row items-center gap-8">
-          {/* 图标 */}
+          {/* Icon */}
           <div className="flex-shrink-0">
             <div className="w-32 h-32 rounded-2xl bg-gray-200 flex items-center justify-center shadow-lg">
               <div className="text-6xl text-gray-500">🔍</div>
             </div>
           </div>
           
-          {/* 信息 */}
+          {/* Information */}
           <div className="flex-1 text-center lg:text-left">
             <div className="mb-4">
               <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-700 mb-3">
@@ -425,7 +425,7 @@ function InputImageSection({ inputInfo }: InputImageSectionProps) {
             </div>
           </div>
           
-          {/* 信息 */}
+          {/* Information */}
           <div className="flex-1 text-center lg:text-left">
             <div className="mb-4">
               <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800 mb-3">

@@ -1,56 +1,56 @@
 import { ArtStyle, TimelineEra, StyleBranch, StyleExplorationData, WaterfallSection, ArtworkData } from '../types/artwork';
 
-// 图片路径映射函数
+// Image path mapping function
 const getImageUrl = (imagePath: string): string => {
-  // 将本地路径转换为可访问的URL
-  // 假设图片已经复制到public目录下
+  // Convert local path to accessible URL
+  // Assume images are already copied to public directory
   const fileName = imagePath.split('/').pop() || '';
   return `/images/${fileName}`;
 };
 
-// 盛期文艺复兴真实图片数据
+// High Renaissance real image data
 const highRenaissanceImages = {
   'raphael-deposition': {
-    title: '基督下葬',
-    artist: '拉斐尔',
+    title: 'The Deposition',
+    artist: 'Raphael',
     year: '1507',
     fileName: 'raphael_the-deposition-1507_320efd91.jpg',
-    description: '拉斐尔的杰作，展现了基督下葬的庄严场面，体现了盛期文艺复兴对宗教题材的崇高处理。'
+    description: 'Raphael\'s masterpiece, depicting the solemn scene of Christ\'s deposition, embodying the High Renaissance\'s sublime treatment of religious subjects.'
   },
   'michelangelo-awakening-slave': {
-    title: '觉醒的奴隶',
-    artist: '米开朗基罗',
+    title: 'The Awakening Slave',
+    artist: 'Michelangelo',
     year: '1536',
     fileName: 'michelangelo_the-awakening-slave-1536_50542386.jpg',
-    description: '米开朗基罗的雕塑杰作，展现了人体从石头中觉醒的瞬间，体现了艺术家对人体美的深刻理解。'
+    description: 'Michelangelo\'s sculptural masterpiece, capturing the moment of a figure awakening from stone, demonstrating the artist\'s profound understanding of human beauty.'
   },
   'perugino-baptism': {
-    title: '基督受洗',
-    artist: '佩鲁吉诺',
+    title: 'Baptism of Christ',
+    artist: 'Pietro Perugino',
     year: '1523',
     fileName: 'pietro-perugino_pala-di-sant-agostino-baptism-of-christ-1523_aa534c07.jpg',
-    description: '佩鲁吉诺的宗教画杰作，展现了基督受洗的庄严场面，体现了早期文艺复兴向盛期文艺复兴的过渡。'
+    description: 'Perugino\'s religious masterpiece, depicting the solemn scene of Christ\'s baptism, representing the transition from Early to High Renaissance.'
   },
   'lotto-entombment': {
-    title: '基督下葬',
-    artist: '洛伦佐·洛托',
+    title: 'The Entombment',
+    artist: 'Lorenzo Lotto',
     year: '1516',
     fileName: 'lorenzo-lotto_altar-polyptych-of-san-bartolomeo-bergamo-foot-plate-entombment-1516_159463af.jpg',
-    description: '洛托的祭坛画杰作，展现了基督下葬的悲壮场面，体现了威尼斯画派的色彩特色。'
+    description: 'Lotto\'s altarpiece masterpiece, depicting the tragic scene of Christ\'s entombment, showcasing the coloristic characteristics of the Venetian school.'
   },
   'michelangelo-pius': {
-    title: '教皇庇护像',
-    artist: '米开朗基罗',
+    title: 'Portrait of Pope Pius',
+    artist: 'Michelangelo',
     year: '1504',
     fileName: 'michelangelo_pius-1504_6bf811fd.jpg',
-    description: '米开朗基罗的雕塑杰作，展现了教皇的威严形象，体现了盛期文艺复兴对人物性格的深刻刻画。'
+    description: 'Michelangelo\'s sculptural masterpiece, depicting the majestic image of the Pope, demonstrating the High Renaissance\'s profound characterization of personality.'
   },
   'leonardo-st-anne': {
-    title: '圣安妮研究',
-    artist: '列奥纳多·达·芬奇',
+    title: 'Study of St. Anne',
+    artist: 'Leonardo da Vinci',
     year: '1500',
     fileName: 'leonardo-da-vinci_study-of-st-anne-mary-the-christ-child-and-the-young-st-john_c2ac15f4.jpg',
-    description: '达·芬奇的手稿研究，展现了艺术家对构图和人物关系的深入思考，体现了科学方法与艺术创作的结合。'
+    description: 'Leonardo\'s manuscript study, demonstrating the artist\'s deep contemplation of composition and human relationships, embodying the integration of scientific method with artistic creation.'
   },
   'leonardo-hands': {
     title: '手部研究',
@@ -73,55 +73,55 @@ export const artStyles: ArtStyle[] = [
   // 🌟 盛期文艺复兴 - 艺术史上的黄金时代
   {
     id: 'high-renaissance',
-    name: '盛期文艺复兴',
-    description: '15-16世纪意大利艺术黄金时代，以达·芬奇、米开朗基罗、拉斐尔为代表，追求和谐均衡和理想化人物，将艺术推向前所未有的高度。这一时期将科学方法与艺术创作完美结合，确立了古典美学的标准，成为人类艺术史上的巅峰。',
-    period: '15-16世纪',
+    name: 'High Renaissance',
+    description: 'The golden age of Italian art in the 15th-16th centuries, represented by Leonardo da Vinci, Michelangelo, and Raphael, pursuing harmony, balance, and idealized figures, elevating art to unprecedented heights. This period perfectly combined scientific methods with artistic creation, established the standards of classical aesthetics, and became the pinnacle of human art history.',
+    period: '15th-16th Century',
     startYear: 1500,
     endYear: 1520,
-    region: '意大利',
-    influence: '艺术史上的巅峰时期，影响了后世数百年的艺术发展，确立了古典美学的标准。其技法创新和美学理念至今仍被奉为经典，为现代艺术教育奠定了基础。',
+    region: 'Italy',
+    influence: 'The pinnacle period in art history, influencing artistic development for hundreds of years and establishing the standards of classical aesthetics. Its technical innovations and aesthetic concepts are still regarded as classics today, laying the foundation for modern art education.',
     characteristics: [
-      '和谐均衡', '理想化人物', '完美比例', '古典美学', '人文主义', 
-      '科学透视', '解剖学', '光影效果', '晕涂法', '线性透视', 
-      '色彩和谐', '构图严谨', '情感表达', '宗教题材', '神话主题'
+      'Harmony and Balance', 'Idealized Figures', 'Perfect Proportions', 'Classical Aesthetics', 'Humanism', 
+      'Scientific Perspective', 'Anatomy', 'Light and Shadow Effects', 'Sfumato', 'Linear Perspective', 
+      'Color Harmony', 'Rigorous Composition', 'Emotional Expression', 'Religious Themes', 'Mythological Subjects'
     ],
     techniques: [
       {
-        name: '晕涂法（Sfumato）',
-        description: '达·芬奇发明的技法，通过柔和的色彩过渡创造朦胧效果，使轮廓更加自然',
-        example: '《蒙娜丽莎》的神秘微笑'
+        name: 'Sfumato',
+        description: 'A technique invented by Leonardo da Vinci, creating a hazy effect through soft color transitions, making contours more natural',
+        example: 'The mysterious smile of the Mona Lisa'
       },
       {
-        name: '线性透视法',
-        description: '科学的透视系统，实现三维空间的准确表现，增强画面的立体感',
-        example: '《最后的晚餐》的深度空间'
+        name: 'Linear Perspective',
+        description: 'A scientific perspective system that achieves accurate representation of three-dimensional space, enhancing the three-dimensionality of the painting',
+        example: 'The depth of space in The Last Supper'
       },
       {
-        name: '明暗法（Chiaroscuro）',
-        description: '通过强烈的明暗对比增强立体感和戏剧效果',
-        example: '米开朗基罗的雕塑作品'
+        name: 'Chiaroscuro',
+        description: 'Enhancing three-dimensionality and dramatic effects through strong light and shadow contrast',
+        example: 'Michelangelo\'s sculptural works'
       },
       {
-        name: '人体解剖学',
-        description: '基于科学解剖学的人体表现，实现更准确的人物造型',
-        example: '《维特鲁威人》的人体比例研究'
+        name: 'Human Anatomy',
+        description: 'Human representation based on scientific anatomy, achieving more accurate figure modeling',
+        example: 'The Vitruvian Man\'s study of human proportions'
       },
       {
-        name: '色彩和谐',
-        description: '追求色彩的自然和谐，避免过于鲜艳的色彩',
-        example: '拉斐尔作品的柔和色调'
+        name: 'Color Harmony',
+        description: 'Pursuing natural harmony of colors, avoiding overly bright colors',
+        example: 'The soft tones in Raphael\'s works'
       }
     ],
     representativeWork: {
       id: 'last-supper',
-      title: '最后的晚餐',
-      artist: '列奥纳多·达·芬奇',
+      title: 'The Last Supper',
+      artist: 'Leonardo da Vinci',
       year: '1495-1498',
-      style: '盛期文艺复兴',
+      style: 'High Renaissance',
       url: '/images/The-Last-Supper.jpg',
-      source: '米兰圣玛利亚感恩教堂',
-      description: '达·芬奇的宗教画杰作，描绘了基督与十二门徒的最后晚餐。这幅画运用了创新的透视法和人物心理刻画，展现了达·芬奇对人性复杂性的深刻洞察。',
-      styleLabels: ['盛期文艺复兴', '宗教画', '达·芬奇', '透视法'],
+      source: 'Santa Maria delle Grazie, Milan',
+      description: 'Leonardo da Vinci\'s religious masterpiece, depicting Christ\'s last supper with the twelve apostles. This painting employs innovative perspective techniques and psychological characterization, demonstrating Leonardo\'s profound insight into human complexity.',
+      styleLabels: ['High Renaissance', 'Religious Painting', 'Leonardo da Vinci', 'Perspective'],
       similarity: 1.0
     },
     relatedStyles: ['impressionism'],
@@ -130,24 +130,24 @@ export const artStyles: ArtStyle[] = [
   // 🌸 印象派 - 现代艺术的起点
   {
     id: 'impressionism',
-    name: '印象派',
-    description: '19世纪晚期法国艺术革命，以莫奈、雷诺阿、德加为代表，突破传统绘画技法，捕捉户外光影的瞬间变化，开创了现代艺术的新纪元',
-    period: '19世纪晚期',
+    name: 'Impressionism',
+    description: 'A French artistic revolution in the late 19th century, represented by Monet, Renoir, and Degas, breaking through traditional painting techniques to capture the instantaneous changes of outdoor light and shadow, ushering in a new era of modern art',
+    period: 'Late 19th Century',
     startYear: 1870,
     endYear: 1890,
-    region: '法国',
-    influence: '现代艺术的起点，彻底改变了艺术观念，从室内画室走向户外，从历史题材转向日常生活，为20世纪艺术革命奠定基础',
-    characteristics: ['户外光影', '快速笔触', '明亮色彩', '瞬间印象', '自然光', '日常生活', '色彩分解', '光学原理'],
+    region: 'France',
+    influence: 'The starting point of modern art, completely changing artistic concepts, moving from indoor studios to outdoors, from historical subjects to daily life, laying the foundation for 20th-century artistic revolution',
+    characteristics: ['Outdoor Light and Shadow', 'Quick Brushstrokes', 'Bright Colors', 'Instantaneous Impressions', 'Natural Light', 'Daily Life', 'Color Decomposition', 'Optical Principles'],
     representativeWork: {
       id: 'monet-impression',
-      title: '印象·日出',
-      artist: '克劳德·莫奈',
+      title: 'Impression, Sunrise',
+      artist: 'Claude Monet',
       year: '1872',
-      style: '印象派',
+      style: 'Impressionism',
       url: '/images/Impression-sunrise.jpg',
-      source: '巴黎',
-      description: '莫奈的杰作，印象派名称的由来。这幅画描绘了勒阿弗尔港口的日出景象，运用破碎的笔触和明亮的色彩捕捉了晨雾中光线的瞬间变化，彻底颠覆了传统绘画的写实主义观念。',
-      styleLabels: ['印象派', '风景画', '莫奈', '日出', '港口'],
+      source: 'Paris',
+      description: 'Monet\'s masterpiece, the origin of the Impressionist movement\'s name. This painting depicts the sunrise scene at the port of Le Havre, using broken brushstrokes and bright colors to capture the instantaneous changes of light in the morning mist, completely overturning traditional painting\'s realist concepts.',
+      styleLabels: ['Impressionism', 'Landscape Painting', 'Monet', 'Sunrise', 'Port'],
       similarity: 1.0
     },
     relatedStyles: ['high-renaissance', 'cubism'],
@@ -156,24 +156,24 @@ export const artStyles: ArtStyle[] = [
   // 🌀 立体主义 - 20世纪最重要的艺术运动之一
   {
     id: 'cubism',
-    name: '立体主义',
-    description: '20世纪初由毕加索和布拉克开创的艺术革命，通过多视角几何化重新定义空间和形式，彻底颠覆了传统绘画的透视法则，成为现代艺术的重要里程碑',
-    period: '20世纪初',
+    name: 'Cubism',
+    description: 'An artistic revolution pioneered by Picasso and Braque in the early 20th century, redefining space and form through multi-perspective geometrization, completely overturning traditional painting\'s perspective laws and becoming an important milestone in modern art',
+    period: 'Early 20th Century',
     startYear: 1907,
     endYear: 1920,
-    region: '法国',
-    influence: '20世纪最重要的艺术运动之一，影响了建筑、设计、雕塑等多个领域，为抽象艺术和现代艺术的发展开辟了道路',
-    characteristics: ['多视角', '几何化', '空间重构', '抽象化', '分析性', '拼贴技法', '色彩简化', '形式分解'],
+    region: 'France',
+    influence: 'One of the most important artistic movements of the 20th century, influencing architecture, design, sculpture, and other fields, paving the way for the development of abstract art and modern art',
+    characteristics: ['Multi-perspective', 'Geometrization', 'Spatial Reconstruction', 'Abstraction', 'Analytical', 'Collage Techniques', 'Color Simplification', 'Form Decomposition'],
     representativeWork: {
       id: 'picasso-les',
-      title: '亚维农少女',
-      artist: '巴勃罗·毕加索',
+      title: 'Les Demoiselles d\'Avignon',
+      artist: 'Pablo Picasso',
       year: '1907',
-      style: '立体主义',
+      style: 'Cubism',
       url: '/images/Les-Demoiselles-d\'Avignon.jpg',
-      source: '纽约现代艺术博物馆',
-      description: '毕加索的杰作，立体主义的开山之作。这幅画描绘了巴塞罗那亚维农街的妓女，通过几何化的形式和多重视角，彻底打破了传统绘画的单一视点，开创了全新的艺术表现方式，标志着现代艺术的诞生。',
-      styleLabels: ['立体主义', '人物画', '毕加索', '亚维农', '几何化'],
+      source: 'Museum of Modern Art, New York',
+      description: 'Picasso\'s masterpiece, the founding work of Cubism. This painting depicts prostitutes from Avignon Street in Barcelona, through geometric forms and multiple perspectives, completely breaking the single viewpoint of traditional painting, creating a new artistic expression and marking the birth of modern art.',
+      styleLabels: ['Cubism', 'Figure Painting', 'Picasso', 'Avignon', 'Geometrization'],
       similarity: 1.0
     },
     relatedStyles: ['impressionism', 'contemporary-art'],
@@ -182,24 +182,24 @@ export const artStyles: ArtStyle[] = [
   // 🎆 当代艺术 - 现代艺术的最新发展
   {
     id: 'contemporary-art',
-    name: '当代艺术',
-    description: '20世纪80年代至今的多元化艺术实践，突破传统媒介界限，融合装置、影像、数字艺术、行为艺术等多种形式，关注社会议题和全球化问题',
-    period: '20世纪80年代至今',
+    name: 'Contemporary Art',
+    description: 'Diverse artistic practices from the 1980s to the present, breaking through traditional media boundaries, integrating installation, video, digital art, performance art, and other forms, focusing on social issues and globalization',
+    period: '1980s to Present',
     startYear: 1980,
     endYear: 2024,
-    region: '全球',
-    influence: '当代艺术的最新发展，持续影响社会文化，推动艺术与科技、社会、政治的深度融合，重新定义艺术的可能性',
-    characteristics: ['多元跨界', '装置艺术', '影像艺术', '数字艺术', '社会参与', '全球化', '身份政治', '环境议题', '科技融合'],
+    region: 'Global',
+    influence: 'The latest development in contemporary art, continuously influencing social culture, promoting deep integration of art with technology, society, and politics, redefining the possibilities of art',
+    characteristics: ['Multi-disciplinary', 'Installation Art', 'Video Art', 'Digital Art', 'Social Engagement', 'Globalization', 'Identity Politics', 'Environmental Issues', 'Technology Integration'],
     representativeWork: {
       id: 'ai-weiwei-sunflower',
-      title: '葵花籽',
-      artist: '艾未未',
+      title: 'Sunflower Seeds',
+      artist: 'Ai Weiwei',
       year: '2010',
-      style: '当代艺术',
+      style: 'Contemporary Art',
       url: '/images/Kui-Hua-Zi.jpg',
-      source: '伦敦泰特现代美术馆',
-      description: '艾未未的杰作，由1亿颗手工制作的陶瓷葵花籽组成的装置艺术。这件作品不仅展现了艺术家的政治立场和对中国社会现实的关注，更体现了当代艺术中个体与集体、传统与创新、艺术与政治的复杂关系，成为当代艺术史上的重要作品。',
-      styleLabels: ['当代艺术', '装置', '艾未未', '政治艺术', '社会批判'],
+      source: 'Tate Modern, London',
+      description: 'Ai Weiwei\'s masterpiece, an installation art piece composed of 100 million handcrafted ceramic sunflower seeds. This work not only demonstrates the artist\'s political stance and concern for Chinese social reality, but also embodies the complex relationships in contemporary art between individual and collective, tradition and innovation, art and politics, becoming an important work in contemporary art history.',
+      styleLabels: ['Contemporary Art', 'Installation', 'Ai Weiwei', 'Political Art', 'Social Critique'],
       similarity: 1.0
     },
     relatedStyles: ['cubism'],
@@ -212,262 +212,262 @@ export const timelineNodes = [
   {
     id: 'romanesque',
     year: 1000,
-    title: '罗曼式艺术',
-    description: '10-12世纪欧洲宗教艺术，以厚重的建筑装饰和宗教壁画为特征',
+    title: 'Romanesque Art',
+    description: 'European religious art of the 10th-12th centuries, characterized by heavy architectural decoration and religious murals',
     styles: [],
-    significance: '中世纪艺术的典型代表，为哥特式艺术奠定基础',
-    representativeArtists: ['匿名大师'],
+    significance: 'A typical representative of medieval art, laying the foundation for Gothic art',
+    representativeArtists: ['Anonymous Masters'],
     color: '#8B4513'
   },
   {
     id: 'gothic',
     year: 1150,
-    title: '哥特式艺术',
-    description: '12-15世纪欧洲艺术风格，以尖拱建筑和彩色玻璃为特征',
+    title: 'Gothic Art',
+    description: 'European artistic style of the 12th-15th centuries, characterized by pointed arch architecture and stained glass',
     styles: [],
-    significance: '建筑与艺术的完美结合，影响后世数百年',
-    representativeArtists: ['建筑大师们'],
+    significance: 'Perfect combination of architecture and art, influencing future generations for centuries',
+    representativeArtists: ['Master Architects'],
     color: '#4A90E2'
   },
   {
     id: 'early-renaissance',
     year: 1400,
-    title: '早期文艺复兴',
-    description: '14-15世纪意大利艺术复兴的初期，探索透视法和人体解剖学',
+    title: 'Early Renaissance',
+    description: 'The early period of Italian artistic revival in the 14th-15th centuries, exploring perspective and human anatomy',
     styles: [],
-    significance: '奠定了文艺复兴艺术的基础，建立了科学的透视法体系',
-    representativeArtists: ['马萨乔', '波提切利'],
+    significance: 'Laid the foundation for Renaissance art and established the scientific perspective system',
+    representativeArtists: ['Masaccio', 'Botticelli'],
     color: '#D4AF37'
   },
   {
     id: 'high-renaissance',
     year: 1500,
-    title: '盛期文艺复兴',
-    description: '15-16世纪文艺复兴的黄金时期，以达·芬奇、米开朗基罗、拉斐尔为代表',
+    title: 'High Renaissance',
+    description: 'The golden period of the Renaissance in the 15th-16th centuries, represented by Leonardo da Vinci, Michelangelo, and Raphael',
     styles: [artStyles[0]], // 引用盛期文艺复兴风格
-    significance: '文艺复兴艺术的巅峰，影响了后世数百年的艺术发展',
-    representativeArtists: ['达·芬奇', '米开朗基罗', '拉斐尔'],
+    significance: 'The pinnacle of Renaissance art, influencing artistic development for hundreds of years',
+    representativeArtists: ['Leonardo da Vinci', 'Michelangelo', 'Raphael'],
     color: '#FFD700'
   },
   {
     id: 'mannerism',
     year: 1520,
-    title: '矫饰主义',
-    description: '16世纪晚期艺术风格，以比例夸张和姿态扭曲为特征',
+    title: 'Mannerism',
+    description: 'Late 16th-century artistic style characterized by exaggerated proportions and distorted poses',
     styles: [],
-    significance: '对文艺复兴理想的反叛，开启巴洛克艺术',
-    representativeArtists: ['埃尔·格列柯'],
+    significance: 'Rebellion against Renaissance ideals, opening the way for Baroque art',
+    representativeArtists: ['El Greco'],
     color: '#FF6B6B'
   },
   {
     id: 'baroque',
     year: 1600,
-    title: '巴洛克',
-    description: '17-18世纪欧洲艺术风格，以戏剧化光影和强烈情感为特征',
+    title: 'Baroque',
+    description: 'European artistic style of the 17th-18th centuries, characterized by dramatic light and shadow and intense emotions',
     styles: [],
-    significance: '艺术与宗教的完美结合，影响整个欧洲',
-    representativeArtists: ['卡拉瓦乔', '鲁本斯', '委拉斯开兹', '伦勃朗'],
+    significance: 'Perfect combination of art and religion, influencing all of Europe',
+    representativeArtists: ['Caravaggio', 'Rubens', 'Velázquez', 'Rembrandt'],
     color: '#8B0000'
   },
   {
     id: 'rococo',
     year: 1700,
-    title: '洛可可',
-    description: '18世纪法国宫廷艺术，以华丽装饰和轻快色彩为特征',
+    title: 'Rococo',
+    description: '18th-century French court art, characterized by ornate decoration and light colors',
     styles: [],
-    significance: '宫廷艺术的极致，影响装饰艺术发展',
-    representativeArtists: ['华托', '布歇', '弗拉戈纳尔'],
+    significance: 'The pinnacle of court art, influencing the development of decorative arts',
+    representativeArtists: ['Watteau', 'Boucher', 'Fragonard'],
     color: '#FFB6C1'
   },
   {
     id: 'neoclassicism',
     year: 1750,
-    title: '新古典主义',
-    description: '18-19世纪艺术风格，回归古罗马希腊美学，强调理性与秩序',
+    title: 'Neoclassicism',
+    description: '18th-19th century art style, returning to ancient Roman and Greek aesthetics, emphasizing reason and order',
     styles: [],
-    significance: '启蒙运动的艺术表现，影响政治和社会',
-    representativeArtists: ['雅克-路易·大卫', '安格尔'],
+    significance: 'Artistic expression of the Enlightenment, influencing politics and society',
+    representativeArtists: ['Jacques-Louis David', 'Ingres'],
     color: '#4682B4'
   },
   {
     id: 'romanticism',
     year: 1800,
-    title: '浪漫主义',
-    description: '19世纪早期艺术运动，强调情感、自然力量和民族史诗',
+    title: 'Romanticism',
+    description: 'Early 19th century art movement emphasizing emotion, natural forces, and national epics',
     styles: [],
-    significance: '对理性的反叛，强调个人情感和想象力',
-    representativeArtists: ['德拉克洛瓦', '透纳', '戈雅'],
+    significance: 'Rebellion against reason, emphasizing personal emotion and imagination',
+    representativeArtists: ['Delacroix', 'Turner', 'Goya'],
     color: '#DC143C'
   },
   {
     id: 'realism',
     year: 1840,
-    title: '现实主义',
-    description: '19世纪中期艺术运动，描绘日常生活和社会题材，反对理想化',
+    title: 'Realism',
+    description: 'Mid-19th century art movement depicting everyday life and social subjects, opposing idealization',
     styles: [],
-    significance: '艺术转向现实，为印象派铺平道路',
-    representativeArtists: ['库尔贝', '米勒'],
+    significance: 'Art turning to reality, paving the way for Impressionism',
+    representativeArtists: ['Courbet', 'Millet'],
     color: '#696969'
   },
   {
     id: 'impressionism',
     year: 1870,
-    title: '印象派',
-    description: '19世纪晚期法国艺术运动，以户外光影和快速笔触为特征',
-    styles: [artStyles[1]], // 引用印象派风格
-    significance: '现代艺术的起点，彻底改变艺术观念',
-    representativeArtists: ['莫奈', '雷诺阿', '德加'],
+    title: 'Impressionism',
+    description: 'Late 19th century French art movement characterized by outdoor light and shadow and rapid brushstrokes',
+    styles: [artStyles[1]], // Reference to Impressionism style
+    significance: 'The starting point of modern art, completely changing artistic concepts',
+    representativeArtists: ['Monet', 'Renoir', 'Degas'],
     color: '#87CEEB'
   },
   {
     id: 'post-impressionism',
     year: 1885,
-    title: '后印象派',
-    description: '19世纪末20世纪初艺术运动，强调个人化表达和形体色彩实验',
+    title: 'Post-Impressionism',
+    description: 'Late 19th to early 20th century art movement emphasizing personal expression and form-color experiments',
     styles: [],
-    significance: '为现代艺术各流派奠定基础',
-    representativeArtists: ['梵高', '高更', '塞尚'],
+    significance: 'Laying the foundation for various modern art movements',
+    representativeArtists: ['Van Gogh', 'Gauguin', 'Cézanne'],
     color: '#FFD700'
   },
   {
     id: 'symbolism',
     year: 1880,
-    title: '象征主义',
-    description: '19世纪末20世纪初艺术运动，强调神秘主义和梦幻题材',
+    title: 'Symbolism',
+    description: 'Late 19th to early 20th century art movement emphasizing mysticism and dream themes',
     styles: [],
-    significance: '为超现实主义奠定基础',
-    representativeArtists: ['莫罗', '雷东'],
+    significance: 'Laying the foundation for Surrealism',
+    representativeArtists: ['Moreau', 'Redon'],
     color: '#9370DB'
   },
   {
     id: 'fauvism',
     year: 1905,
-    title: '野兽派',
-    description: '20世纪初法国艺术运动，以大胆原色和简化形体为特征',
+    title: 'Fauvism',
+    description: 'Early 20th century French art movement characterized by bold primary colors and simplified forms',
     styles: [],
-    significance: '色彩解放，为表现主义铺平道路',
-    representativeArtists: ['马蒂斯'],
+    significance: 'Color liberation, paving the way for Expressionism',
+    representativeArtists: ['Matisse'],
     color: '#FF4500'
   },
   {
     id: 'cubism',
     year: 1907,
-    title: '立体主义',
-    description: '20世纪初艺术运动，以多视角几何化为特征',
-    styles: [artStyles[2]], // 引用立体主义风格
-    significance: '20世纪最重要的艺术运动之一',
-    representativeArtists: ['毕加索', '布拉克'],
+    title: 'Cubism',
+    description: 'Early 20th century art movement characterized by multi-perspective geometricization',
+    styles: [artStyles[2]], // Reference to Cubism style
+    significance: 'One of the most important art movements of the 20th century',
+    representativeArtists: ['Picasso', 'Braque'],
     color: '#2E8B57'
   },
   {
     id: 'futurism',
     year: 1909,
-    title: '未来主义',
-    description: '20世纪初意大利艺术运动，强调速度、机械和都市动感',
+    title: 'Futurism',
+    description: 'Early 20th century Italian art movement emphasizing speed, machinery, and urban dynamism',
     styles: [],
-    significance: '对现代工业文明的赞美',
-    representativeArtists: ['波丘尼'],
+    significance: 'Celebration of modern industrial civilization',
+    representativeArtists: ['Boccioni'],
     color: '#FF6347'
   },
   {
     id: 'expressionism',
     year: 1905,
-    title: '表现主义',
-    description: '20世纪初德国艺术运动，强调主观情感和扭曲形体',
+    title: 'Expressionism',
+    description: 'Early 20th century German art movement emphasizing subjective emotion and distorted forms',
     styles: [],
-    significance: '情感表达的艺术，影响后世表现主义',
-    representativeArtists: ['康定斯基', '蒙克'],
+    significance: 'Art of emotional expression, influencing later Expressionism',
+    representativeArtists: ['Kandinsky', 'Munch'],
     color: '#8B0000'
   },
   {
     id: 'dada',
     year: 1916,
-    title: '达达主义',
-    description: '20世纪初反艺术运动，以拼贴和讽刺为特征',
+    title: 'Dadaism',
+    description: 'Early 20th century anti-art movement characterized by collage and satire',
     styles: [],
-    significance: '反艺术的艺术，为观念艺术奠定基础',
-    representativeArtists: ['杜尚'],
+    significance: 'Anti-art art, laying the foundation for Conceptual Art',
+    representativeArtists: ['Duchamp'],
     color: '#FF1493'
   },
   {
     id: 'surrealism',
     year: 1924,
-    title: '超现实主义',
-    description: '20世纪20-40年代艺术运动，探索梦境和潜意识',
+    title: 'Surrealism',
+    description: '1920s-1940s art movement exploring dreams and the subconscious',
     styles: [],
-    significance: '探索潜意识，影响现代艺术和设计',
-    representativeArtists: ['达利', '马格利特'],
+    significance: 'Exploring the subconscious, influencing modern art and design',
+    representativeArtists: ['Dalí', 'Magritte'],
     color: '#FF69B4'
   },
   {
     id: 'abstract-art',
     year: 1910,
-    title: '抽象艺术',
-    description: '20世纪初至今的艺术运动，脱离具象，强调形与色',
+    title: 'Abstract Art',
+    description: 'Art movement from early 20th century to present, breaking away from representation, emphasizing form and color',
     styles: [],
-    significance: '现代艺术的核心，影响所有艺术形式',
-    representativeArtists: ['康定斯基', '蒙德里安'],
+    significance: 'Core of modern art, influencing all art forms',
+    representativeArtists: ['Kandinsky', 'Mondrian'],
     color: '#9370DB'
   },
   {
     id: 'abstract-expressionism',
     year: 1940,
-    title: '抽象表现主义',
-    description: '20世纪40-50年代美国艺术运动，以即兴笔触和巨大画布为特征',
+    title: 'Abstract Expressionism',
+    description: '1940s-1950s American art movement characterized by spontaneous brushstrokes and large canvases',
     styles: [],
-    significance: '美国艺术的崛起，影响全球艺术发展',
-    representativeArtists: ['波洛克', '罗斯科'],
+    significance: 'Rise of American art, influencing global art development',
+    representativeArtists: ['Pollock', 'Rothko'],
     color: '#FF8C00'
   },
   {
     id: 'minimalism',
     year: 1960,
-    title: '极简主义',
-    description: '20世纪60-70年代艺术运动，以简单几何和去个性化为特征',
+    title: 'Minimalism',
+    description: '1960s-1970s art movement characterized by simple geometry and depersonalization',
     styles: [],
-    significance: '极简美学，影响设计和建筑',
-    representativeArtists: ['唐纳德·贾德'],
+    significance: 'Minimalist aesthetics, influencing design and architecture',
+    representativeArtists: ['Donald Judd'],
     color: '#C0C0C0'
   },
   {
     id: 'pop-art',
     year: 1950,
-    title: '波普艺术',
-    description: '20世纪50-70年代艺术运动，以消费文化和广告图像为特征',
+    title: 'Pop Art',
+    description: '1950s-1970s art movement characterized by consumer culture and advertising imagery',
     styles: [],
-    significance: '艺术与大众文化的结合，影响当代艺术',
-    representativeArtists: ['安迪·沃霍尔', '利希滕斯坦'],
+    significance: 'Combination of art and popular culture, influencing contemporary art',
+    representativeArtists: ['Andy Warhol', 'Lichtenstein'],
     color: '#FF1493'
   },
   {
     id: 'conceptual-art',
     year: 1960,
-    title: '观念艺术',
-    description: '20世纪60年代至今的艺术运动，作品即观念本身',
+    title: 'Conceptual Art',
+    description: 'Art movement from 1960s to present, where the work is the concept itself',
     styles: [],
-    significance: '观念至上，影响当代艺术发展',
-    representativeArtists: ['约瑟夫·科苏斯'],
+    significance: 'Concept over form, influencing contemporary art development',
+    representativeArtists: ['Joseph Kosuth'],
     color: '#000000'
   },
   {
     id: 'contemporary-art',
     year: 1980,
-    title: '当代艺术',
-    description: '20世纪80年代至今的艺术，多元跨界，包含装置、影像、数字艺术',
-    styles: [artStyles[3]], // 引用当代艺术风格
-    significance: '当代艺术的最新发展，持续影响社会',
-    representativeArtists: ['艾未未', '达米恩·赫斯特'],
+    title: 'Contemporary Art',
+    description: 'Art from 1980s to present, diverse and cross-disciplinary, including installations, video, and digital art',
+    styles: [artStyles[3]], // Reference to Contemporary Art style
+    significance: 'Latest development in contemporary art, continuously influencing society',
+    representativeArtists: ['Ai Weiwei', 'Damien Hirst'],
     color: '#FF4500'
   },
-  // 更多内容，后续更新提示
+  // More content, coming soon notice
   {
     id: 'coming-soon',
     year: 2025,
-    title: '更多艺术风格',
-    description: '我们正在持续更新更多精彩的艺术风格内容，敬请期待！',
+    title: 'More Art Styles',
+    description: 'We are continuously updating more exciting art style content, stay tuned!',
     styles: [],
-    significance: '更多艺术风格探索功能即将上线',
-    representativeArtists: ['敬请期待'],
+    significance: 'More art style exploration features coming soon',
+    representativeArtists: ['Coming Soon'],
     color: '#9CA3AF'
   }
 ];
