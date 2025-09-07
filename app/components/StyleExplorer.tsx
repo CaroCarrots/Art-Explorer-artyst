@@ -8,6 +8,7 @@ import MasterpieceSection from './style/MasterpieceSection';
 import SimilarWorksSection from './style/SimilarWorksSection';
 import TimelineSection from './style/TimelineSection';
 import StyleBranchesSection from './style/StyleBranchesSection';
+import ComingSoonSection from './style/ComingSoonSection';
 import ArtTimeline from './style/ArtTimeline';
 
 interface StyleExplorerProps {
@@ -100,24 +101,41 @@ export default function StyleExplorer({ onBack, showTimeline: initialShowTimelin
 
     const handleScroll = () => {
       const scrollTop = window.scrollY;
-      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = scrollHeight > 0 ? scrollTop / scrollHeight : 0;
+      const windowHeight = window.innerHeight;
       
-      setScrollProgress(progress);
+      setScrollProgress(scrollTop / (document.documentElement.scrollHeight - windowHeight));
       
-      // 根据滚动进度确定当前章节
+      // 根据每个section的实际位置确定当前章节
       if (explorationData) {
         const sections = explorationData.waterfallSections;
         let newSection = 0;
-        for (let i = sections.length - 1; i >= 0; i--) {
-          if (progress >= sections[i].scrollTrigger) {
-            newSection = i;
-            break;
+        
+        for (let i = 0; i < sections.length; i++) {
+          const sectionElement = document.getElementById(sections[i].id);
+          if (sectionElement) {
+            const rect = sectionElement.getBoundingClientRect();
+            const sectionTop = rect.top + scrollTop;
+            const sectionHeight = rect.height;
+            
+            // 当section的顶部进入视窗中心区域时激活
+            const triggerPoint = sectionTop - windowHeight * 0.3;
+            
+            if (scrollTop >= triggerPoint) {
+              newSection = i;
+            }
           }
         }
         
         // 调试信息
-        console.log('Scroll Progress:', progress, 'Current Section:', newSection, 'Sections:', sections.map(s => ({ id: s.id, trigger: s.scrollTrigger })));
+        console.log('Scroll Top:', scrollTop, 'Current Section:', newSection, 'Sections:', sections.map((s, i) => {
+          const el = document.getElementById(s.id);
+          const rect = el ? el.getBoundingClientRect() : null;
+          return { 
+            id: s.id, 
+            top: rect ? rect.top + scrollTop : 'N/A',
+            trigger: rect ? (rect.top + scrollTop - windowHeight * 0.3) : 'N/A'
+          };
+        }));
         
         setCurrentSection(newSection);
       }
@@ -140,19 +158,30 @@ export default function StyleExplorer({ onBack, showTimeline: initialShowTimelin
     // 延迟触发滚动检查，确保DOM已更新
     setTimeout(() => {
       const scrollTop = window.scrollY;
-      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = scrollHeight > 0 ? scrollTop / scrollHeight : 0;
+      const windowHeight = window.innerHeight;
       
       if (data) {
         const sections = data.waterfallSections;
-        for (let i = sections.length - 1; i >= 0; i--) {
-          if (progress >= sections[i].scrollTrigger) {
-            setCurrentSection(i);
-            break;
+        let newSection = 0;
+        
+        for (let i = 0; i < sections.length; i++) {
+          const sectionElement = document.getElementById(sections[i].id);
+          if (sectionElement) {
+            const rect = sectionElement.getBoundingClientRect();
+            const sectionTop = rect.top + scrollTop;
+            
+            // 当section的顶部进入视窗中心区域时激活
+            const triggerPoint = sectionTop - windowHeight * 0.3;
+            
+            if (scrollTop >= triggerPoint) {
+              newSection = i;
+            }
           }
         }
+        
+        setCurrentSection(newSection);
       }
-    }, 100);
+    }, 200);
   };
 
   const handleBackToSelection = () => {
@@ -179,9 +208,45 @@ export default function StyleExplorer({ onBack, showTimeline: initialShowTimelin
       <ArtTimeline 
         nodes={timelineNodes}
         onNodeClick={(node) => {
-          // 如果节点有相关风格，可以选择第一个风格
-          if (node.styles.length > 0) {
-            handleStyleSelect(node.styles[0]);
+               // 检查是否是精选的3个风格之一
+               const featuredStyleIds = ['high-renaissance', 'impressionism', 'contemporary-art'];
+               const isFeaturedStyle = featuredStyleIds.includes(node.id);
+          
+          if (isFeaturedStyle) {
+            // 精选风格：从artStyles中找到对应的风格
+            const style = allStyles.find(s => s.id === node.id);
+            if (style) {
+              handleStyleSelect(style);
+              setShowTimeline(false);
+            }
+          } else {
+            // 非精选风格：创建临时风格对象，显示"敬请期待"界面
+            const tempStyle: ArtStyle = {
+              id: node.id,
+              name: node.title,
+              description: node.description,
+              period: `${node.year}年`,
+              startYear: node.year,
+              endYear: node.year + 50,
+              region: '欧洲',
+              influence: node.significance,
+              characteristics: [node.description],
+              representativeWork: {
+                id: `${node.id}-temp`,
+                title: node.title,
+                artist: node.representativeArtists[0] || '匿名',
+                year: node.year.toString(),
+                style: node.title,
+                url: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600',
+                source: '历史资料',
+                description: node.description,
+                styleLabels: [node.title],
+                similarity: 1.0
+              },
+              relatedStyles: [],
+              color: node.color
+            };
+            handleStyleSelect(tempStyle);
             setShowTimeline(false);
           }
         }}
@@ -571,6 +636,12 @@ export default function StyleExplorer({ onBack, showTimeline: initialShowTimelin
             {section.type === 'style-branches' && (
               <StyleBranchesSection
                 branches={section.data}
+                style={selectedStyle}
+                isActive={currentSection === index}
+              />
+            )}
+            {section.type === 'coming-soon' && (
+              <ComingSoonSection
                 style={selectedStyle}
                 isActive={currentSection === index}
               />

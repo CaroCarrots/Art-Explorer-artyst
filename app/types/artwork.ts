@@ -87,7 +87,7 @@ export interface StyleBranch {
 
 export interface WaterfallSection {
   id: string;
-  type: 'masterpiece' | 'similar-works' | 'timeline' | 'style-branches';
+  type: 'masterpiece' | 'similar-works' | 'timeline' | 'style-branches' | 'coming-soon';
   title: string;
   description: string;
   data: any; // 根据type不同，数据结构不同

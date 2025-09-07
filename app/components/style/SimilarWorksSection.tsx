@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { ArtworkData, ArtStyle } from '../../types/artwork';
 
 interface SimilarWorksSectionProps {
-  artworks: ArtworkData[];
+  artworks?: ArtworkData[];
   style: ArtStyle;
   isActive: boolean;
 }
@@ -35,7 +35,7 @@ export default function SimilarWorksSection({ artworks, style, isActive }: Simil
 
           {/* 作品网格 */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {artworks.map((artwork, index) => (
+            {artworks && artworks.length > 0 ? artworks.map((artwork, index) => (
               <motion.div
                 key={artwork.id}
                 initial={{ opacity: 0, y: 50, scale: 0.9 }}
@@ -114,7 +114,39 @@ export default function SimilarWorksSection({ artworks, style, isActive }: Simil
                   </div>
                 </div>
               </motion.div>
-            ))}
+            )) : (
+              /* 敬请期待内容 */
+              <motion.div
+                initial={{ opacity: 0, y: 50, scale: 0.9 }}
+                animate={{ 
+                  opacity: isActive ? 1 : 0.4, 
+                  y: isActive ? 0 : 30,
+                  scale: isActive ? 1 : 0.95
+                }}
+                transition={{ delay: 0.4, duration: 0.8, ease: 'easeOut' }}
+                className="col-span-full"
+              >
+                <div className="bg-white rounded-2xl shadow-lg p-12 text-center">
+                  <div className="text-6xl mb-6">🚀</div>
+                  <h3 className="text-3xl font-bold text-gray-800 mb-4">
+                    更多内容，敬请期待！
+                  </h3>
+                  <p className="text-lg text-gray-600 mb-6">
+                    我们正在为 <span className="font-semibold text-[#FF6B6B]">{style.name}</span> 准备相似作品内容
+                  </p>
+                  <div className="flex flex-wrap gap-3 justify-center">
+                    {style.characteristics.slice(0, 4).map((characteristic, index) => (
+                      <span
+                        key={index}
+                        className="px-4 py-2 bg-gradient-to-r from-[#FF6B6B] to-[#4ECDC4] text-white rounded-full text-sm font-medium"
+                      >
+                        {characteristic}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
+            )}
           </div>
 
           {/* 章节说明 */}

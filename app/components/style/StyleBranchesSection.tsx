@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { StyleBranch, ArtStyle } from '../../types/artwork';
 
 interface StyleBranchesSectionProps {
-  branches: StyleBranch[];
+  branches?: StyleBranch[];
   style: ArtStyle;
   isActive: boolean;
 }
@@ -35,7 +35,7 @@ export default function StyleBranchesSection({ branches, style, isActive }: Styl
 
           {/* 分支网格 */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {branches.map((branch, index) => (
+            {branches && branches.length > 0 ? branches.map((branch, index) => (
               <motion.div
                 key={branch.id}
                 initial={{ opacity: 0, y: 50, scale: 0.9 }}
@@ -151,7 +151,39 @@ export default function StyleBranchesSection({ branches, style, isActive }: Styl
                   </div>
                 </div>
               </motion.div>
-            ))}
+            )) : (
+              /* 敬请期待内容 */
+              <motion.div
+                initial={{ opacity: 0, y: 50, scale: 0.9 }}
+                animate={{ 
+                  opacity: isActive ? 1 : 0.4, 
+                  y: isActive ? 0 : 30,
+                  scale: isActive ? 1 : 0.95
+                }}
+                transition={{ delay: 0.4, duration: 0.8, ease: 'easeOut' }}
+                className="col-span-full"
+              >
+                <div className="bg-white rounded-2xl shadow-xl p-12 text-center">
+                  <div className="text-6xl mb-6">🚀</div>
+                  <h3 className="text-3xl font-bold text-gray-800 mb-4">
+                    更多内容，敬请期待！
+                  </h3>
+                  <p className="text-lg text-gray-600 mb-6">
+                    我们正在为 <span className="font-semibold text-[#FF6B6B]">{style.name}</span> 准备相关分支内容
+                  </p>
+                  <div className="flex flex-wrap gap-3 justify-center">
+                    {style.characteristics.slice(0, 4).map((characteristic, index) => (
+                      <span
+                        key={index}
+                        className="px-4 py-2 bg-gradient-to-r from-[#FF6B6B] to-[#4ECDC4] text-white rounded-full text-sm font-medium"
+                      >
+                        {characteristic}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
+            )}
           </div>
 
           {/* 分支关系图 */}
@@ -180,7 +212,7 @@ export default function StyleBranchesSection({ branches, style, isActive }: Styl
                   </motion.div>
                   
                   {/* 分支风格 */}
-                  {branches.map((branch, index) => (
+                  {branches && branches.map((branch, index) => (
                     <motion.div
                       key={branch.id}
                       initial={{ opacity: 0, scale: 0 }}
