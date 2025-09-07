@@ -87,10 +87,10 @@ export interface StyleBranch {
 
 export interface WaterfallSection {
   id: string;
-  type: 'masterpiece' | 'similar-works' | 'timeline' | 'style-branches';
   title: string;
   description: string;
-  data: any; // 根据type不同，数据结构不同
+  component: string;
+  data?: any; // 根据component不同，数据结构不同
   scrollTrigger: number; // 滚动触发点 (0-1)
 }
 

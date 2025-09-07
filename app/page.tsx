@@ -7,6 +7,7 @@ import LandingSection from './components/LandingSection';
 import ProductIntro from './components/ProductIntro';
 import ImageSimilarityFinder from './components/ImageSimilarityFinder';
 import ExportSection from './components/ExportSection';
+import ComingSoonSection from './components/ComingSoonSection';
 
 // 动态导入StyleExplorer，禁用SSR
 const StyleExplorer = dynamic(() => import('./components/StyleExplorer'), {
@@ -38,7 +39,7 @@ export default function Home() {
       setScrollProgress(progress);
       
       // Update current section based on scroll position
-      const sections = ['landing-section', 'product-intro', 'export-section'];
+      const sections = ['landing-section', 'product-intro', 'export-section', 'coming-soon-section'];
       const sectionElements = sections.map(id => document.getElementById(id));
       
       let current = 0;
@@ -62,7 +63,8 @@ export default function Home() {
   const sections = [
     { id: 'landing-section', name: 'Start Exploring', icon: '🎨' },
     { id: 'product-intro', name: 'Product Intro', icon: '📖' },
-    { id: 'export-section', name: 'Save Works', icon: '💾' }
+    { id: 'export-section', name: 'Save Works', icon: '💾' },
+    { id: 'coming-soon-section', name: 'Coming Soon', icon: '🚀' }
   ];
 
   // 如果显示时间轴，渲染它
@@ -207,6 +209,11 @@ export default function Home() {
         {/* Export Section */}
         <div id="export-section">
           <ExportSection contentRef={contentRef} />
+        </div>
+        
+        {/* Coming Soon Section */}
+        <div id="coming-soon-section">
+          <ComingSoonSection />
         </div>
       </div>
     </div>

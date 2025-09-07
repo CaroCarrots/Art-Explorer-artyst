@@ -179,9 +179,38 @@ export default function StyleExplorer({ onBack, showTimeline: initialShowTimelin
       <ArtTimeline 
         nodes={timelineNodes}
         onNodeClick={(node) => {
-          // 如果节点有相关风格，可以选择第一个风格
+          // 如果节点有相关风格，选择第一个风格
           if (node.styles.length > 0) {
             handleStyleSelect(node.styles[0]);
+            setShowTimeline(false);
+          } else {
+            // 如果没有详细内容，创建一个临时的艺术风格对象
+            const tempStyle: ArtStyle = {
+              id: node.id,
+              name: node.title,
+              description: node.description,
+              period: `${node.year}年`,
+              startYear: node.year,
+              endYear: node.year + 50, // 假设持续50年
+              region: '全球',
+              influence: node.significance,
+              characteristics: ['历史风格', '艺术发展', '文化影响'],
+              representativeWork: {
+                id: `${node.id}-work`,
+                title: `${node.title}代表作品`,
+                artist: node.representativeArtists[0] || '匿名',
+                year: `${node.year}`,
+                style: node.title,
+                url: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600',
+                source: '历史资料',
+                description: `这是${node.title}时期的代表作品，展现了该艺术风格的特征。`,
+                styleLabels: [node.title, '历史艺术'],
+                similarity: 1.0
+              },
+              relatedStyles: [],
+              color: node.color
+            };
+            handleStyleSelect(tempStyle);
             setShowTimeline(false);
           }
         }}
@@ -506,6 +535,22 @@ export default function StyleExplorer({ onBack, showTimeline: initialShowTimelin
         />
       </div>
 
+      {/* 版本提示 */}
+      {selectedStyle && !['high-renaissance', 'impressionism', 'cubism', 'contemporary-art'].includes(selectedStyle.id) && (
+        <div className="fixed top-20 left-1/2 transform -translate-x-1/2 z-40">
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="bg-gradient-to-r from-[#FFB74D] to-[#FF8C00] text-white px-6 py-3 rounded-full shadow-lg backdrop-blur-sm"
+          >
+            <div className="flex items-center space-x-2">
+              <span className="text-lg">ℹ️</span>
+              <span className="text-sm font-medium">当前为简化版本，完整内容敬请期待</span>
+            </div>
+          </motion.div>
+        </div>
+      )}
+
       {/* 章节导航 */}
       <div className="fixed right-8 top-1/2 transform -translate-y-1/2 z-40 hidden lg:block">
         <div className="space-y-4">
@@ -547,31 +592,31 @@ export default function StyleExplorer({ onBack, showTimeline: initialShowTimelin
       <div className="relative">
         {explorationData.waterfallSections.map((section, index) => (
           <div key={section.id} id={section.id} className="min-h-screen">
-            {section.type === 'masterpiece' && (
+            {section.component === 'MasterpieceSection' && (
               <MasterpieceSection
-                artwork={section.data}
                 style={selectedStyle}
+                masterpieces={section.data || []}
                 isActive={currentSection === index}
               />
             )}
-            {section.type === 'similar-works' && (
+            {section.component === 'SimilarWorksSection' && (
               <SimilarWorksSection
-                artworks={section.data}
                 style={selectedStyle}
+                similarWorks={section.data || []}
                 isActive={currentSection === index}
               />
             )}
-            {section.type === 'timeline' && (
+            {section.component === 'TimelineSection' && (
               <TimelineSection
-                eras={section.data}
                 style={selectedStyle}
+                timeline={section.data || []}
                 isActive={currentSection === index}
               />
             )}
-            {section.type === 'style-branches' && (
+            {section.component === 'StyleBranchesSection' && (
               <StyleBranchesSection
-                branches={section.data}
                 style={selectedStyle}
+                branches={section.data || []}
                 isActive={currentSection === index}
               />
             )}
